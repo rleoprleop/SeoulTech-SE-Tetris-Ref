@@ -1,8 +1,7 @@
 package seoultech.se.tetris.component.setting;
 
 import seoultech.se.tetris.component.Setting;
-import seoultech.se.tetris.component.TetrisMenu;
-import seoultech.se.tetris.component.model.Data;
+import seoultech.se.tetris.component.model.DataManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,13 +14,11 @@ public class DisplaySetting extends JFrame {
     private JPanel backButtonPanel, menuPanel;
     private JButton backButton;
     private JButton big, normal, small;
-    private Data data;
 
-    public DisplaySetting(int x, int y, Data settingdata) {
+    public DisplaySetting(int x, int y) {
         this.setSize(500, 600);
         this.setLocation(x, y);
         this.setLayout(new BorderLayout(25, 25));
-        this.data = settingdata;
 
         setbackButtonPanel();
         setMenuPanel();
@@ -72,32 +69,16 @@ public class DisplaySetting extends JFrame {
                 go_back();
             }
             else if (big.equals(e.getSource())) { // restartButton pressed
-                try {
-                    data.setDisplay("big");
-                    data.saveSetting();
-                    go_back();
-                } catch (IOException ioException) {
-                    ioException.printStackTrace();
-                }
-
+                DataManager.getInstance().setDisplay("big");
+                go_back();
             }
             else if (normal.equals(e.getSource())) { // restartButton pressed
-                try {
-                    data.setDisplay("normal");
-                    data.saveSetting();
-                    go_back();
-                } catch (IOException ioException) {
-                    ioException.printStackTrace();
-                }
+                DataManager.getInstance().setDisplay("normal");
+                go_back();
             }
             else { // restartButton pressed
-                try {
-                    data.setDisplay("small");
-                    data.saveSetting();
-                    go_back();
-                } catch (IOException ioException) {
-                    ioException.printStackTrace();
-                }
+                DataManager.getInstance().setDisplay("small");
+                go_back();
             }
         }
     };

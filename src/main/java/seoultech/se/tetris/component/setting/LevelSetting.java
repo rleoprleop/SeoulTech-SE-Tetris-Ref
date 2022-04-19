@@ -1,8 +1,7 @@
 package seoultech.se.tetris.component.setting;
 
 import seoultech.se.tetris.component.Setting;
-import seoultech.se.tetris.component.TetrisMenu;
-import seoultech.se.tetris.component.model.Data;
+import seoultech.se.tetris.component.model.DataManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,13 +14,12 @@ public class LevelSetting extends JFrame {
     private JPanel backButtonPanel, menuPanel;
     private JButton backButton;
     private JButton easy, normal, hard;
-    private Data data;
 
-    public LevelSetting(int x, int y, Data settingdata) {
+
+    public LevelSetting(int x, int y) {
         this.setSize(500, 600);
         this.setLocation(x, y);
         this.setLayout(new BorderLayout(25, 25));
-        this.data = settingdata;
 
         setbackButtonPanel();
         setMenuPanel();
@@ -74,32 +72,18 @@ public class LevelSetting extends JFrame {
                 go_back();
             }
             else if (easy.equals(e.getSource())) { // restartButton pressed
-                try {
-                    data.setLevel("easy");
-                    data.saveSetting();
-                    go_back();
-                } catch (IOException ioException) {
-                    ioException.printStackTrace();
-                }
+                DataManager.getInstance().setLevel("easy");
+                go_back();
             }
             else if (normal.equals(e.getSource())) { // restartButton pressed
-                try {
-                    data.setLevel("normal");
-                    data.saveSetting();
-                    go_back();
-                } catch (IOException ioException) {
-                    ioException.printStackTrace();
-                }
 
+                DataManager.getInstance().setLevel("normal");
+                go_back();
             }
             else { // restartButton pressed
-                try {
-                    data.setLevel("hard");
-                    data.saveSetting();
-                    go_back();
-                } catch (IOException ioException) {
-                    ioException.printStackTrace();
-                }
+
+                DataManager.getInstance().setLevel("hard");
+                go_back();
             }
         }
     };

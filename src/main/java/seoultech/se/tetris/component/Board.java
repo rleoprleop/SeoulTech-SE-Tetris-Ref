@@ -6,9 +6,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.IOException;
-import java.security.KeyException;
-import java.sql.SQLOutput;
-import java.util.Arrays;
 import java.util.Random;
 
 import javax.swing.*;
@@ -23,10 +20,7 @@ import seoultech.se.tetris.blocks.OBlock;
 import seoultech.se.tetris.blocks.SBlock;
 import seoultech.se.tetris.blocks.TBlock;
 import seoultech.se.tetris.blocks.ZBlock;
-import seoultech.se.tetris.component.model.Data;
-import seoultech.se.tetris.component.model.ScoreDataManager;
-
-import static java.awt.event.KeyEvent.VK_A;
+import seoultech.se.tetris.component.model.DataManager;
 
 
 public class Board extends JFrame {
@@ -74,7 +68,6 @@ public class Board extends JFrame {
 	private static final int EASY = 72;
 	private static final int NORMAL = 70;
 	private static final int HARD = 68;
-	private Data settingdata = new Data();
 	private static int lev_block = NORMAL; //난이도. easy 72 normal 70 hard 68
 	private int display_width;
 	private int display_height;
@@ -194,7 +187,7 @@ public class Board extends JFrame {
 	}
 
 	private void setting() throws IOException {
-		String lv = settingdata.getLevel();
+		String lv = DataManager.getInstance().getLevel();
 		switch(lv){
 			case "normal":
 				lev_block = NORMAL;
@@ -206,7 +199,7 @@ public class Board extends JFrame {
 				lev_block = EASY;
 				break;
 		}
-		String display = settingdata.getDisplay();
+		String display = DataManager.getInstance().getDisplay();
 		switch (display){
 			case "small":
 				display_width = 500;
@@ -221,17 +214,17 @@ public class Board extends JFrame {
 				display_height = 1800;
 				break;
 		}
-		int code = settingdata.getLeft();
+		int code = DataManager.getInstance().getLeft();
 		key_left = code;
-		code = settingdata.getRight();
+		code = DataManager.getInstance().getRight();
 		key_right = code;
-		code = settingdata.getRotate();
+		code = DataManager.getInstance().getRotate();
 		key_rotate = code;
-		code = settingdata.getHarddrop();
+		code = DataManager.getInstance().getHarddrop();
 		key_harddrop = code;
-		code = settingdata.getPause();
+		code = DataManager.getInstance().getPause();
 		key_pause = code;
-		code = settingdata.getDown();
+		code = DataManager.getInstance().getDown();
 		key_down = code;
 	}
 

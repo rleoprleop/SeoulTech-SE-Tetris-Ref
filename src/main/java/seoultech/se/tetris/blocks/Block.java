@@ -1,6 +1,6 @@
 package seoultech.se.tetris.blocks;
 
-import seoultech.se.tetris.component.model.Data;
+import seoultech.se.tetris.component.model.DataManager;
 
 import java.awt.Color;
 import java.io.IOException;
@@ -12,14 +12,13 @@ public abstract class Block {
 	protected int centermoved_x;
 	protected int centermoved_y;
 	protected static boolean color_weak;
-	private Data settingdata = new Data();
-	
+
 	public Block() throws IOException {
 		shape = new int[][]{ 
 				{1, 1}, 
 				{1, 1}
 		};
-		if(settingdata.getColor_weak().equals("off"))
+		if(DataManager.getInstance().getColor_weak().equals("off"))
 			color_weak = false;
 		else
 			color_weak = true;

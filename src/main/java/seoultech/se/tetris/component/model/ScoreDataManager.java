@@ -24,8 +24,6 @@ public class ScoreDataManager {
     private final String FILEPATH = "src/main/java/seoultech/se/tetris/component/model/ScoreData.json";
     private final String column[]={"순위","Player Name","Score"};
 
-
-    // private final String FILEPATH = "seoultech/se/tetris/component/model/ScoreData.json";
     private ScoreDataManager() {
 
     }
