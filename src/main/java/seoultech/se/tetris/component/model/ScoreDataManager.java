@@ -7,7 +7,6 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -174,7 +173,7 @@ public class ScoreDataManager {
         return scoreTable;
     }
 
-    public void clearNormalData(String mode) {
+    public void resetting(String mode) {
         JSONArray clearData = new JSONArray();
         JSONObject keyArr = new JSONObject();
         JSONObject scoreData = readData();

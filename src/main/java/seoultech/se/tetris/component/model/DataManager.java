@@ -19,9 +19,6 @@ public class DataManager {
     private String KEY_HARDDROP = "hardDrop";
     private String KEY_PAUSE = "pause";
 
-    Object setting;
-    BufferedWriter writer;
-    JSONObject js;
     private DataManager() {
     }
 
@@ -112,6 +109,17 @@ public class DataManager {
         writeData(data.toString());
     }
 
+    public void setKey(int left, int right, int down, int pause, int rotate, int hardDrop){
+        JSONObject data = readData();
+        data.put(KEY_LEFT, left);
+        data.put(KEY_RIGHT, right);
+        data.put(KEY_DOWN, down);
+        data.put(KEY_PAUSE, pause);
+        data.put(KEY_ROTATE, rotate);
+        data.put(KEY_HARDDROP, hardDrop);
+        writeData(data.toString());
+    }
+
     public String getLevel(){
         JSONObject data = readData();
         return data.get(KEY_LEVEL).toString();
@@ -157,6 +165,40 @@ public class DataManager {
         String stringData = data.get(KEY_DOWN).toString();
         return Integer.parseInt(stringData);
     }
+
+    public int getHeight(){
+        String display = getDisplay();
+        int height=0;
+        switch (display) {
+            case "small":
+                height = 600;
+                break;
+            case "normal":
+                height = 1200;
+                break;
+            case "big":
+                height = 1800;
+                break;
+        }
+        return height;
+    }
+
+    public int getWeight() {
+            String display = getDisplay();
+            int weight=0;
+            switch (display) {
+                case "small":
+                    weight = 500;
+                    break;
+                case "normal":
+                    weight = 1000;
+                    break;
+                case "big":
+                    weight = 1500;
+                    break;
+            }
+            return weight;
+        }
 
     public void resetting(){
         JSONObject data = readData();
