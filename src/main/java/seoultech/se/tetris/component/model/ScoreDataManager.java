@@ -16,12 +16,12 @@ import java.util.List;
 public class ScoreDataManager {
     private final String KEY_SCORE = "점수";
     private final String KEY_NAME = "이름";
-    private final String KEY_MODE = "난이도";
+    private final String KEY_LEVEL = "난이도";
 
     private final String KEY_NORM = "normalScore";
     private final String KEY_ITEM = "itemScore";
     private final String FILEPATH = "src/main/java/seoultech/se/tetris/component/model/ScoreData.json";
-    private final String column[]={"순위","Player Name","Score"};
+    private final String column[]={"순위","Player Name","Level","Score"};
 
     private ScoreDataManager() {
 
@@ -79,6 +79,7 @@ public class ScoreDataManager {
         }
         data.put(KEY_SCORE, score);
         data.put(KEY_NAME, name);
+        data.put(KEY_LEVEL, DataManager.getInstance().getLevel());
         scoreArr.add(data);
         scoreData.put(mode, scoreArr);
         fetchData(scoreData, mode);
@@ -143,8 +144,9 @@ public class ScoreDataManager {
             JSONObject element = (JSONObject)scoreArr.get(i);
             int sc =Integer.parseInt(element.get(KEY_SCORE).toString());
             String str = element.get(KEY_NAME).toString();
+            String level = element.get(KEY_LEVEL).toString();
 
-            if(str.equals(name) && score == sc){
+            if(str.equals(name) && score == sc && level.equals(DataManager.getInstance().getLevel())){
                 idx = i;
                 break;
             }
@@ -156,13 +158,14 @@ public class ScoreDataManager {
         JSONObject scoreData = readData();
 
         JSONArray scoreArr = (JSONArray)scoreData.get(mode);
-        Object objectData[][] = new Object[scoreArr.size()][3];
+        Object objectData[][] = new Object[scoreArr.size()][4];
 
         for(int i = 0; i< scoreArr.size(); i++){
             JSONObject element = (JSONObject) scoreArr.get(i);
             objectData[i][0] = Integer.toString(i+1);
             objectData[i][1] = element.get(KEY_NAME).toString();
-            objectData[i][2] = element.get(KEY_SCORE).toString();
+            objectData[i][2] = element.get(KEY_LEVEL).toString();
+            objectData[i][3] = element.get(KEY_SCORE).toString();
         }
         return objectData;
     }
