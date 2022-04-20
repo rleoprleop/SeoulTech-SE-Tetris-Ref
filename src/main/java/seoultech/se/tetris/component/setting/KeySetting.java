@@ -111,6 +111,7 @@ public class KeySetting extends JFrame {
                 go_back();
             }
             else if (left.equals(e.getSource())) { // restartButton pressed
+
                 currLeft.setText(keyutil.getKeyText(DataManager.getInstance().getLeft()));
             }
             else if (right.equals(e.getSource())) { // restartButton pressed

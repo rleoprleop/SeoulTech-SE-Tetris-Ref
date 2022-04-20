@@ -38,23 +38,30 @@ public class DisplaySetting extends JFrame {
 
     private void setMenuPanel(){
         menuPanel = new JPanel(new GridLayout(5,1,5,0));
+        String stat = DataManager.getInstance().getDisplay();
 
         JPanel bigPanel = new JPanel();
         big = new JButton("big");
+        if(big.getText().equals(stat)) big.setSelected(true);
         big.setPreferredSize(new Dimension(180, 60));
         big.addActionListener(listner);
+        big.setFocusPainted(false);
         bigPanel.add(big);
 
         JPanel normalPanel = new JPanel();
         normal = new JButton("normal");
+        if(normal.getText().equals(stat)) normal.setSelected(true);
         normal.setPreferredSize(new Dimension(180, 60));
         normal.addActionListener(listner);
+        normal.setFocusPainted(false);
         normalPanel.add(normal);
 
         JPanel smallPanel  = new JPanel();
         small = new JButton("small");
+        if(small.getText().equals(stat)) small.setSelected(true);
         small.setPreferredSize(new Dimension(180, 60));
         small.addActionListener(listner);
+        small.setFocusPainted(false);
         smallPanel.add(small);
 
         menuPanel.add(bigPanel);

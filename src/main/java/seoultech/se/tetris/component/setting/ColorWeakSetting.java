@@ -38,17 +38,26 @@ public class ColorWeakSetting extends JFrame {
 
     private void setMenuPanel(){
         menuPanel = new JPanel(new GridLayout(5,1,5,0));
+        String stat = DataManager.getInstance().getColor_weak();
 
         JPanel onPanel = new JPanel();
         on = new JButton("on");
+        if(on.getText().equals(stat)){
+            on.setSelected(true);
+        }
         on.setPreferredSize(new Dimension(180, 60));
         on.addActionListener(listner);
+        on.setFocusPainted(false);
         onPanel.add(on);
 
         JPanel offPanel = new JPanel();
         off = new JButton("off");
+        if (off.getText().equals(stat)){
+            off.setSelected(true);
+        }
         off.setPreferredSize(new Dimension(180, 60));
         off.addActionListener(listner);
+        off.setFocusPainted(false);
         offPanel.add(off);
 
 

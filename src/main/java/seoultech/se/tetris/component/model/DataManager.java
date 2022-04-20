@@ -118,7 +118,7 @@ public class DataManager {
     }
     public String getColor_weak(){
         JSONObject data = readData();
-        return data.get(KEY_LEVEL).toString();
+        return data.get(KEY_COLOR).toString();
     }
     public String getDisplay(){
         JSONObject data = readData();

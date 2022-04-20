@@ -39,23 +39,33 @@ public class LevelSetting extends JFrame {
 
     private void setMenuPanel(){
         menuPanel = new JPanel(new GridLayout(5,1,5,0));
+        String stat = DataManager.getInstance().getLevel();
+
 
         JPanel easyPanel = new JPanel();
         easy = new JButton("easy");
+        if(easy.getText().equals(stat)) easy.setSelected(true);
         easy.setPreferredSize(new Dimension(180, 60));
+        easy.setFocusPainted(false);
         easy.addActionListener(listner);
         easyPanel.add(easy);
 
         JPanel normalPanel = new JPanel();
         normal = new JButton("normal");
+        if(normal.getText().equals(stat)) normal.setSelected(true);
+
         normal.setPreferredSize(new Dimension(180, 60));
         normal.addActionListener(listner);
+        normal.setFocusPainted(false);
         normalPanel.add(normal);
 
         JPanel hardPanel  = new JPanel();
         hard = new JButton("hard");
+        if(hard.getText().equals(stat)) hard.setSelected(true);
+
         hard.setPreferredSize(new Dimension(180, 60));
         hard.addActionListener(listner);
+        hard.setFocusPainted(false);
         hardPanel.add(hard);
 
 
