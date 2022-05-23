@@ -59,12 +59,7 @@ public class Board extends JFrame {
 	private static boolean ispaused = false;
 	int x = 3; //Default Position.
 	int y = 0;
-	//score 관련 변수들
-	private static int line_erase_num = 0;
-	private static int accuml_combo =0;
-	private static int down_num =0;
-	private static int combo;
-	private static int final_score = 0;
+	private static int score = 0;
 
 	private static final int initInterval = 1000;
 	int sprint=0;
@@ -73,14 +68,15 @@ public class Board extends JFrame {
 	private static final int EASY = 72;
 	private static final int NORMAL = 70;
 	private static final int HARD = 68;
-	private static final int score_easy = 1;
-	private static final int score_normal = 2;
-	private static final int score_hard = 5;
 	private static int lev_block = NORMAL; //난이도. easy 72 normal 70 hard 68
-	private int score_diff;
-
-	private int display_width,display_height,key_left,key_right,key_rotate,key_harddrop,key_pause,key_down;
-
+	private int display_width;
+	private int display_height;
+	private int key_left;
+	private int key_right;
+	private int key_rotate;
+	private int key_harddrop;
+	private int key_pause;
+	private int key_down;
 	private String mode;
 
 
@@ -95,6 +91,9 @@ public class Board extends JFrame {
 		this.setLocation(x, y);
 		this.setLayout(new GridLayout(1,2,10,0));
 		main_panel = new JPanel();
+
+		score = 0;
+		sprint =0;
 
 		// readOS
 		os = System.getProperty("os.name").toLowerCase();
@@ -188,26 +187,16 @@ public class Board extends JFrame {
 	}
 
 	private void setting() throws IOException {
-		line_erase_num = 0;
-		final_score = 0;
-		combo = 0;
-		down_num =0;
 		String lv = DataManager.getInstance().getLevel();
 		switch(lv){
 			case "normal":
 				lev_block = NORMAL;
-				sprint = 500;
-				score_diff = score_normal;
 				break;
 			case "hard":
 				lev_block = HARD;
-				sprint = 900;
-				score_diff = score_hard;
 				break;
 			case "easy":
 				lev_block = EASY;
-				sprint = 0;
-				score_diff = score_easy;
 				break;
 		}
 		String display = DataManager.getInstance().getDisplay();
@@ -217,12 +206,12 @@ public class Board extends JFrame {
 				display_height = 600;
 				break;
 			case "normal":
-				display_width = 600;
-				display_height = 800;
+				display_width = 1000;
+				display_height = 1200;
 				break;
 			case "big":
-				display_width = 800;
-				display_height = 1000;
+				display_width = 1500;
+				display_height = 1800;
 				break;
 		}
 		int code = DataManager.getInstance().getLeft();
@@ -398,7 +387,7 @@ public class Board extends JFrame {
 				}
 			}
 			if(canErase) {
-				line_erase_num += 1;
+				score += 1;
 				earse = true;
 				sprint+=20;
 				for(int j = 0; j<WIDTH; j++) {
@@ -411,7 +400,7 @@ public class Board extends JFrame {
 			down(i);
 //			System.out.println(i);
 		}
-		//if(earse)  System.out.println(lowest);
+		if(earse)  System.out.println(lowest);
 	}
 
 	protected void down(int row) {
@@ -440,38 +429,29 @@ public class Board extends JFrame {
 	}
 
 	protected void moveDown() throws IOException { //구조를 조금 바꿈 갈수잇는지 먼저 확인후에 갈수있으면 지우고 이동
-		down_num += 1;
 		if(!isBlocked('d')) {
 			eraseCurr();
 			y++;
 		}
 		else {
-			combo = line_erase_num;
+			int combo = score;
 			placeBlock();
 			eraseRow();
-			combo = line_erase_num - combo;
+			combo = score - combo;
 			if(combo > 0)
-				line_erase_num += combo-1;
+				score += combo-1;
 			curr = next_block;
 			next_block = getRandomBlock();
 			x = 3;
 			y = 0;
 			if(isBlocked('d')){
 				timer.stop();
-				new EndGame(this.getLocation().x, this.getLocation().y, final_score, mode);
+				new EndGame(this.getLocation().x, this.getLocation().y, score, mode);
 				this.dispose();
 			}
 		}
 		placeBlock();
 		drawBoard();
-		calScore();
-	}
-
-	private void calScore() {
-		accuml_combo += combo;
-		combo = 0;
-		// 라인을 지울 때마다 10점 획득, 2줄 한번에 지울시 10점,3줄 한번에 20점, 1칸 떨어질 때마다 1점 획득
-		final_score = (line_erase_num * score_diff + accuml_combo) * 10 + down_num;
 	}
 
 	protected void moveRight() { //갈수있는지 함수 추가해줌
@@ -563,7 +543,7 @@ public class Board extends JFrame {
 		doc.setParagraphAttributes(0, doc.getLength(), styleSet, false);
 		StringBuffer sb = new StringBuffer();
 		sb.append("\nScore : ");
-		sb.append(final_score);
+		sb.append(score);
 		score_pane.setText(sb.toString());
 		score_pane.setStyledDocument(doc);
 	}
@@ -594,7 +574,7 @@ public class Board extends JFrame {
 
 	public void reset() {
 		this.board = new int[20][10];
-		line_erase_num = 0;
+		score = 0;
 		sprint = 0;
 		drawBoard();
 	}
