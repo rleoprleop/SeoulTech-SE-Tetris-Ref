@@ -42,12 +42,16 @@ public class Board extends JFrame {
 	public static final String mac_BLANK_CHAR = " ";
 	public static String os;
 
+	private BoardLayout mainPanel;
 	private JTextPane pane;
 	private JTextPane next_pane;
 	private JTextPane score_pane;
 	private JTextPane next_block_pane;
 	private JPanel main_panel;
 	private JPanel side_panel;
+	private CompoundBorder border;
+
+
 	private int[][] board;
 	private int[][] next_board;
 	private Color[][] color_board;
@@ -82,15 +86,13 @@ public class Board extends JFrame {
 
 	public Board(int x, int y, String mode) throws IOException {
 		super("SeoulTech SE Tetris");
-
 		this.mode = mode;
 		//read setting
 		setting();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setSize(display_width, display_height);
+		mainPanel = new BoardLayout(this.getWidth(), this.getHeight());
 		this.setLocation(x, y);
-		this.setLayout(new GridLayout(1,2,10,0));
-		main_panel = new JPanel();
 
 		score = 0;
 		sprint =0;
@@ -112,45 +114,21 @@ public class Board extends JFrame {
 
 
 		//Board display setting.
-		pane = new JTextPane();
-		pane.setEditable(false);
-		pane.setBackground(Color.BLACK);
-		CompoundBorder border = BorderFactory.createCompoundBorder(
-				BorderFactory.createLineBorder(Color.GRAY, 10),
-				BorderFactory.createLineBorder(Color.DARK_GRAY, 5));
-		pane.setBorder(border);
-		main_panel.add(pane);
+
 		//this.getContentPane().add(game_pane, BorderLayout.WEST);
 
-		next_pane = new JTextPane();
-		next_pane.setEditable(false);
-		next_pane.setBackground(Color.BLACK);
-		next_pane.setBorder(border);
-
-		score_pane = new JTextPane();
-		score_pane.setEditable(false);
-		score_pane.setBackground(Color.BLACK);
-		score_pane.setBorder(border);
-
-		side_panel = new JPanel();
-		side_panel.add(score_pane, new GridLayout(4,1));
-		side_panel.setLayout(new GridLayout(4,1,10,30));
-		side_panel.add(next_pane);
-		side_panel.add(score_pane);
-
-
-		this.add(main_panel);
-		this.add(side_panel);
+//		mainPanel.setSidePane(side_panel);
 
 		//Document default style.
 		styleSet = new SimpleAttributeSet();
-		StyleConstants.setFontSize(styleSet, 18);
+		StyleConstants.setFontSize(styleSet, display_height/34);
 		StyleConstants.setFontFamily(styleSet, "Courier");
 		StyleConstants.setBold(styleSet, true);
 		StyleConstants.setForeground(styleSet, Color.WHITE);
 		StyleConstants.setAlignment(styleSet, StyleConstants.ALIGN_CENTER);
 
-		this.setVisible(true);
+
+
 		//Set timer for block drops.
 		timer = new Timer(initInterval, new ActionListener() {
 			@Override
@@ -170,7 +148,9 @@ public class Board extends JFrame {
 		});
 
 		//Initialize board for the game.
+		System.out.println(this.getHeight());
 		board = new int[HEIGHT][WIDTH];
+
 		next_board = new int[NEXT_HEIGHT][NEXT_WIDTH];
 		color_board = new Color[HEIGHT][WIDTH];
 		playerKeyListener = new PlayerKeyListener();
@@ -178,12 +158,49 @@ public class Board extends JFrame {
 		setFocusable(true);
 		requestFocus();
 
+		setMain_panel();
+		setSide_panel();
+		this.add(mainPanel);
+		this.setVisible(true);
+
 		//Create the first block and draw.
 		curr = getRandomBlock();
 		next_block = getRandomBlock();
 		placeBlock();
 		drawBoard();
 		timer.start();
+	}
+
+	private void setMain_panel(){
+		main_panel = new JPanel();
+
+		pane = new JTextPane();
+		pane.setEditable(false);
+		pane.setBackground(Color.BLACK);
+		border = BorderFactory.createCompoundBorder(
+				BorderFactory.createLineBorder(Color.GRAY, 10),
+				BorderFactory.createLineBorder(Color.DARK_GRAY, 5));
+		pane.setBorder(border);
+		main_panel.add(pane);
+		mainPanel.setBoardPane(main_panel);
+
+	}
+
+	private void setSide_panel(){
+		next_pane = new JTextPane();
+		next_pane.setEditable(false);
+		next_pane.setBackground(Color.BLACK);
+		next_pane.setBorder(border);
+
+		score_pane = new JTextPane();
+		score_pane.setEditable(false);
+		score_pane.setBackground(Color.BLACK);
+		score_pane.setBorder(border);
+//
+//		side_panel = new JPanel();
+//		side_panel.add(score_pane, new GridLayout(4,1));
+		mainPanel.setSidePane(next_pane);
+		mainPanel.setSidePane(score_pane);
 	}
 
 	private void setting() throws IOException {
@@ -206,12 +223,12 @@ public class Board extends JFrame {
 				display_height = 600;
 				break;
 			case "normal":
-				display_width = 1000;
-				display_height = 1200;
+				display_width = 700;
+				display_height = 840;
 				break;
 			case "big":
-				display_width = 1500;
-				display_height = 1800;
+				display_width = 800;
+				display_height = 960;
 				break;
 		}
 		int code = DataManager.getInstance().getLeft();
