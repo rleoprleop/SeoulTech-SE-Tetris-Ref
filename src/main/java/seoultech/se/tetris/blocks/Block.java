@@ -4,19 +4,42 @@ import seoultech.se.tetris.component.model.DataManager;
 
 import java.awt.Color;
 import java.io.IOException;
+import java.util.Random;
 
 public abstract class Block {
 		
 	protected int[][] shape;
+	protected int[][][] item_shape;
 	protected Color color;
 	protected int centermoved_x;
 	protected int centermoved_y;
 	protected static boolean color_weak;
+	protected String itemMode;
+	protected Random rand = new Random();
 
 	public Block() throws IOException {
+
 		shape = new int[][]{ 
 				{1, 1}, 
 				{1, 1}
+		};
+		item_shape = new int[][][]{
+				{
+						{3,1},
+						{1,1}
+				},
+				{
+						{1,3},
+						{1,1}
+				},
+				{
+						{1,1},
+						{3,1}
+				},
+				{
+						{1,1},
+						{1,3}
+				}
 		};
 		if(DataManager.getInstance().getColor_weak().equals("off"))
 			color_weak = false;
@@ -25,7 +48,27 @@ public abstract class Block {
 		color = Color.YELLOW;
 		centermoved_x = 0;
 		centermoved_y = 0;
+		this.itemMode = DataManager.getInstance().getMode();
 	}
+
+	public int get_item_shape_length(){
+		return this.item_shape.length;
+	}
+
+	public void make_item() {
+		int rand_int = rand.nextInt(this.item_shape.length);
+		shape = this.item_shape[rand_int];
+		int num_item = 3;
+		int rand_item = rand.nextInt(num_item) +1 + 2;
+		for(int i=0; i<shape.length; i++){
+			for(int j=0; j<shape[i].length; j++){
+				if(shape[i][j] > 2)
+					shape[i][j] = rand_item;
+			}
+		}
+	}
+
+	public String getItemMode() {return itemMode;}
 
 	public int getCentermovedX() {
 		return centermoved_x;

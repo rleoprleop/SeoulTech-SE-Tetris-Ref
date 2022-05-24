@@ -10,6 +10,24 @@ public class OBlock extends Block {
 			{1, 1}, 
 			{1, 1}
 		};
+		item_shape = new int[][][]{
+				{
+						{3,1},
+						{1,1}
+				},
+				{
+						{1,3},
+						{1,1}
+				},
+				{
+						{1,1},
+						{3,1}
+				},
+				{
+						{1,1},
+						{1,3}
+				}
+		};
 		if(color_weak)
 			color= new Color(0xf2e245);
 		else

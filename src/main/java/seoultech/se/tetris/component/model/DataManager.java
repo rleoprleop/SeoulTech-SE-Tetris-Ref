@@ -19,6 +19,8 @@ public class DataManager {
     private final String KEY_HARDDROP = "hardDrop";
     private final String KEY_PAUSE = "pause";
 
+    private final String KEY_MODE = "mode";
+
     private DataManager() {
     }
 
@@ -54,6 +56,12 @@ public class DataManager {
         } catch (IOException e){
             e.printStackTrace();
         }
+    }
+
+    public void setMode(String mode){
+        JSONObject data = readData();
+        data.put(KEY_MODE, mode);
+        writeData(data.toString());
     }
 
     public void setLevel(String lv){
@@ -120,6 +128,10 @@ public class DataManager {
         writeData(data.toString());
     }
 
+    public String getMode(){
+        JSONObject data = readData();
+        return data.get(KEY_MODE).toString();
+    }
     public String getLevel(){
         JSONObject data = readData();
         return data.get(KEY_LEVEL).toString();
