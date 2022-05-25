@@ -33,9 +33,10 @@ public class Board extends JFrame {
 	public static final String mac_BORDER_CHAR = "X";
 	public static final String mac_BLOCK_CHAR = "O";
 	public static final String mac_BLANK_CHAR = " ";
+	public static final String BLOCK_CHAR_LIST = " OOLEDOXXXXX";
+
 	public static String os;
-	public static final String BLOCK_CHAR_LIST = " OOLEDO#";
-	public static final int animate_idx = 7;
+	public static final int animate_idx = 6;
 
 	private BoardLayout mainPanel;
 	private JTextPane pane;
@@ -142,7 +143,7 @@ public class Board extends JFrame {
 			}
 		});
 
-		press_timer = new Timer(200, new ActionListener() {
+		press_timer = new Timer(300, new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -154,7 +155,7 @@ public class Board extends JFrame {
 			}
 		});
 
-		erase_timer = new Timer(100, new ActionListener() {
+		erase_timer = new Timer(200, new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				eraseLine();
@@ -424,8 +425,8 @@ public class Board extends JFrame {
 			erase_line_check++;
 			for(int i=lowest;i>=y;i--){
 				for(int j=0;j<WIDTH;j++){
-					if(board[i][j]>99){
-						board[i][j]-=100;
+					if(board[i][j]>6){
+						board[i][j]-=animate_idx;
 					}
 				}
 			}
@@ -537,8 +538,10 @@ public class Board extends JFrame {
 			}
 			if(canErase) {
 				for(int j = 0; j<WIDTH; j++) {
-					board[i][j] += 100;
-					erase=true;
+					if(board[i][j]!=0) {
+						board[i][j] += animate_idx;
+						erase = true;
+					}
 				}
 			}
 		}
@@ -688,11 +691,12 @@ public class Board extends JFrame {
 		int win_extra_border = 4;
 		int mac_extra_border = 2;
 		int extra_border;
-		if(os.contains("win"))
+		if(os.contains("win")) {
 			extra_border = win_extra_border;
-		else
+		}
+		else {
 			extra_border = mac_extra_border;
-
+		}
 		StringBuffer sb = new StringBuffer();
 		StyledDocument doc = pane.getStyledDocument();
 		StyleConstants.setForeground(styleSet, Color.WHITE);
@@ -713,7 +717,7 @@ public class Board extends JFrame {
 						//sb.append(BLOCK_CHAR);
 						StyleConstants.setForeground(styleSet, Color.WHITE);
 					} else {
-						doc.insertString(doc.getLength(), "     ", styleSet);//머지 조심
+						doc.insertString(doc.getLength(), BLANK_CHAR, styleSet);//머지 조심
 						//sb.append(BLANK_CHAR);
 					}
 				}
@@ -752,7 +756,7 @@ public class Board extends JFrame {
 				if(next_board[i][j] != 0) {
 					sb.append(Character.toString(BLOCK_CHAR_LIST.charAt(next_board[i][j])));
 				} else {
-					sb.append(Character.toString(BLOCK_CHAR_LIST.charAt(next_board[i][j])));
+					sb.append(BLANK_CHAR);
 				}
 			}
 			sb.append("\n");
