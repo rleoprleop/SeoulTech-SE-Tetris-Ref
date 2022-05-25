@@ -52,6 +52,7 @@ public class Board extends JFrame {
 	private SimpleAttributeSet styleSet;
 	private Timer timer;
 	private Timer press_timer;
+	private Timer erase_timer;
 	private Block curr;
 	private Block next_block;
 	private static boolean ispaused = false;
@@ -66,6 +67,7 @@ public class Board extends JFrame {
 	private static final int SPMAX=900;
 
 	private int timerflag;
+	private int erase_line_check=0;
 
 	private static final int EASY = 72;
 	private static final int NORMAL = 70;
@@ -152,10 +154,23 @@ public class Board extends JFrame {
 			}
 		});
 
+		erase_timer = new Timer(100, new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				eraseLine();
+				drawBoard();
+			}
+		});
+
 		board = new int[HEIGHT][WIDTH];
 
 		next_board = new int[NEXT_HEIGHT][NEXT_WIDTH];
 		color_board = new Color[HEIGHT][WIDTH];
+		for(int i=0;i<HEIGHT;i++){
+			for(int j=0;j<WIDTH;j++){
+				color_board[i][j]=Color.white;
+			}
+		}//color_board 초기화
 		playerKeyListener = new PlayerKeyListener();
 		addKeyListener(playerKeyListener);
 		setFocusable(true);
@@ -314,6 +329,8 @@ public class Board extends JFrame {
 	}
 
 	private boolean isBlocked(char move){ //블럭이 갈 수 있는지 확인하는 함수('d' : 아래, 'r' : 오른쪽, 'l' : 왼쪽)
+		if(timerflag==0)
+			return true;
 		if(move == 'd') { //down
 			if(y + curr.height() < HEIGHT) {
 				for (int i = x; i < x + curr.width(); i++) {
@@ -401,6 +418,26 @@ public class Board extends JFrame {
 		placeBlock();
 	}
 
+	protected void eraseLine(){
+		int lowest = y + curr.height() -1;
+		if(erase_line_check<2){
+			erase_line_check++;
+			for(int i=lowest;i>=y;i--){
+				for(int j=0;j<WIDTH;j++){
+					if(board[i][j]>99){
+						board[i][j]-=100;
+					}
+				}
+			}
+		}
+		else{
+			erase_timer.stop();
+			timer.start();
+		}
+		placeBlock();
+		drawBoard();
+	}
+
 	protected void cal_score(int combo, boolean double_score){
 		if(combo > 0) {
 			total_score = total_score + combo + combo - 1;
@@ -477,6 +514,35 @@ public class Board extends JFrame {
 //			System.out.println(i);
 		}
 //		if(earse)  System.out.println(lowest);
+	}
+
+	protected boolean checkEraseRow(){
+		if(erase_timer.isRunning()||erase_line_check!=0){
+			erase_line_check=0;
+			return false;
+		}
+		int lowest = y + curr.height() -1;
+		boolean erase=false;
+		for(int i = lowest; i>=y; i--){
+			boolean canErase = true;
+			for(int j = 0; j < WIDTH; j++){
+				if(BLOCK_CHAR_LIST.charAt(board[i][j]) == 'L'){//line erase
+					canErase=true;
+					break;
+				}
+				if(board[i][j] == 0)
+				{
+					canErase = false;
+				}
+			}
+			if(canErase) {
+				for(int j = 0; j<WIDTH; j++) {
+					board[i][j] += 100;
+					erase=true;
+				}
+			}
+		}
+		return erase;
 	}
 
 	protected void down(int row) {
@@ -558,6 +624,12 @@ public class Board extends JFrame {
 			timer.stop();
 			timerflag=0;
 			press_timer.start();
+		}
+		else if(checkEraseRow()){
+			placeBlock();
+			timer.stop();
+			timerflag=0;
+			erase_timer.start();
 		}
 		else {
 			timerflag=1;
@@ -641,7 +713,7 @@ public class Board extends JFrame {
 						//sb.append(BLOCK_CHAR);
 						StyleConstants.setForeground(styleSet, Color.WHITE);
 					} else {
-						doc.insertString(doc.getLength(), Character.toString(BLOCK_CHAR_LIST.charAt(board[i][j])), styleSet);//머지 조심
+						doc.insertString(doc.getLength(), "     ", styleSet);//머지 조심
 						//sb.append(BLANK_CHAR);
 					}
 				}
