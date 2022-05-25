@@ -142,13 +142,8 @@ public class VSmode extends JFrame {
         p.score_pane.setBackground(Color.BLACK);
         p.score_pane.setBorder(border);
 
-        p.attack_pane.setEditable(false);
-        p.attack_pane.setBackground(Color.BLACK);
-        p.attack_pane.setBorder(border);
-
         p.player.setSidePane(p.next_pane);
         p.player.setSidePane(p.score_pane);
-        p.player.setSidePane(p.attack_pane);
     }
 
     private void setPlayer(Player p) throws IOException {
