@@ -6,6 +6,35 @@ import org.json.simple.parser.ParseException;
 
 import java.io.*;
 
+
+/*
+{"rotate":"38",
+  "ori_left":"37",
+  "ori_rotate":"38",
+  "ori_down":"40",
+  "Color_weak":"off",
+  "ori_pause":"27",
+  "right":"39",
+  "down":"40",
+  "pause":"27",
+  "ori_Level":"normal",
+  "ori_hardDrop":"32",
+  "mode":"normalScore",
+  "left":"37",
+  "ori_Display":"normal",
+  "ori_right":"39",
+  "Level":"normal",
+  "hardDrop":"32",
+  "ori_Color_weak":"off",
+  "Display":"normal",
+  "right2":"68",
+  "left2":"65",
+  "down2":"83",
+  "rotate2":"87",
+  "harddrop2":"84"
+}
+
+ */
 public class DataManager {
     private final String FILEPATH = "src/main/java/seoultech/se/tetris/component/model/setting.json";
     private final String KEY_LEVEL = "Level";
@@ -18,6 +47,12 @@ public class DataManager {
     private final String KEY_ROTATE = "rotate";
     private final String KEY_HARDDROP = "hardDrop";
     private final String KEY_PAUSE = "pause";
+    private final String KEY_LEFT2 = "left2";
+    private final String KEY_RIGHT2 = "right2";
+    private final String KEY_DOWN2 = "down2";
+
+    private final String KEY_ROTATE2 = "rotate2";
+    private final String KEY_HARDDROP2 = "hardDrop2";
 
     private final String KEY_MODE = "mode";
 
@@ -117,6 +152,36 @@ public class DataManager {
         writeData(data.toString());
     }
 
+    public void setLeft2(int code) {
+        JSONObject data = readData();
+        data.put(KEY_LEFT2, code);
+        writeData(data.toString());
+    }
+
+    public void setRight2(int code){
+        JSONObject data = readData();
+        data.put(KEY_RIGHT2, code);
+        writeData(data.toString());
+    }
+
+    public void setRotate2(int code){
+        JSONObject data = readData();
+        data.put(KEY_ROTATE2, code);
+        writeData(data.toString());
+    }
+
+    public void setHarddrop2(int code){
+        JSONObject data = readData();
+        data.put(KEY_HARDDROP2, code);
+        writeData(data.toString());
+    }
+
+    public void setDown2(int code){
+        JSONObject data = readData();
+        data.put(KEY_DOWN2, code);
+        writeData(data.toString());
+    }
+
     public void setKey(int left, int right, int down, int pause, int rotate, int hardDrop){
         JSONObject data = readData();
         data.put(KEY_LEFT, left);
@@ -178,39 +243,33 @@ public class DataManager {
         return Integer.parseInt(stringData);
     }
 
-    public int getHeight(){
-        String display = getDisplay();
-        int height=0;
-        switch (display) {
-            case "small":
-                height = 600;
-                break;
-            case "normal":
-                height = 1200;
-                break;
-            case "big":
-                height = 1800;
-                break;
-        }
-        return height;
+    public int getLeft2(){
+        JSONObject data = readData();
+        String stringData = data.get(KEY_LEFT2).toString();
+        return Integer.parseInt(stringData);
+    }
+    public int getRight2() {
+        JSONObject data = readData();
+        String stringData = data.get(KEY_RIGHT2).toString();
+        return Integer.parseInt(stringData);
+    }
+    public int getRotate2() {
+        JSONObject data = readData();
+        String stringData = data.get(KEY_ROTATE2).toString();
+        return Integer.parseInt(stringData);
     }
 
-    public int getWeight() {
-            String display = getDisplay();
-            int weight=0;
-            switch (display) {
-                case "small":
-                    weight = 500;
-                    break;
-                case "normal":
-                    weight = 1000;
-                    break;
-                case "big":
-                    weight = 1500;
-                    break;
-            }
-            return weight;
-        }
+    public int getHarddrop2() {
+        JSONObject data = readData();
+        String stringData = data.get(KEY_HARDDROP2).toString();
+        return Integer.parseInt(stringData);
+    }
+
+    public int getDown2(){
+        JSONObject data = readData();
+        String stringData = data.get(KEY_DOWN2).toString();
+        return Integer.parseInt(stringData);
+    }
 
     public void resetting(){
         JSONObject data = readData();

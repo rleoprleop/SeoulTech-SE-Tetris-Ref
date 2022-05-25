@@ -16,7 +16,7 @@ import java.io.IOException;
 import static javax.swing.JOptionPane.showMessageDialog;
 
 public class TetrisMenu extends JFrame {
-    private ImageIcon menuList[] = new ImageIcon[5];
+    private ImageIcon menuList[] = new ImageIcon[6];
     private Container c;
     private int menuNum = 0;
     //private JPanel mainPanel;
@@ -85,12 +85,14 @@ public class TetrisMenu extends JFrame {
         ImageIcon leaderImg = new ImageIcon("img/tetrisMenu/Leader_ac.png");
         ImageIcon endgameImg = new ImageIcon("img/tetrisMenu/End_ac.png");
         ImageIcon itemmodeImg = new ImageIcon("img/tetrisMenu/Item_Mode_ac.png");
+        ImageIcon vsmodeImg = new ImageIcon("img/tetrisMenu/VsMode_ac.png");
 
         menuList[0] = menuImg;
         menuList[1] = leaderImg;
         menuList[2] = settingImg;
         menuList[3] = endgameImg;
         menuList[4] = itemmodeImg;
+        menuList[5] = vsmodeImg;
 
         upLabel = new JLabel(upImg);
         downLabel = new JLabel(downImg);
@@ -132,6 +134,10 @@ public class TetrisMenu extends JFrame {
                 break;
             case 4: //item mode
                 new Board(this.getLocation().x, this.getLocation().y, ScoreDataManager.getInstance().getItemKey());
+                this.dispose();
+                break;
+            case 5: //item mode
+                new VSmode(this.getLocation().x, this.getLocation().y);
                 this.dispose();
                 break;
             default:

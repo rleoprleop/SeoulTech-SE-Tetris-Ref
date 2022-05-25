@@ -1,6 +1,7 @@
 package seoultech.se.tetris.component;
 
 import javax.swing.*;
+import javax.swing.border.CompoundBorder;
 import java.awt.*;
 
 public class BoardLayout extends JPanel {
@@ -17,6 +18,7 @@ public class BoardLayout extends JPanel {
         this.add(boardPane);
         this.add(sidePane);
     }
+
     public void setBoardPane(JPanel pane) {
         boardPane.add(pane);
     }

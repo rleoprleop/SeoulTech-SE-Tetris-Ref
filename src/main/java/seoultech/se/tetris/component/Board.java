@@ -26,7 +26,7 @@ public class Board extends JFrame {
 	public static final int NEXT_HEIGHT = 4;
 	public static String BORDER_CHAR = "X";
 	public static String BLOCK_CHAR = "O";
-	public static String BLANK_CHAR = " ";
+	public static String BLANK_CHAR = " ";
 	public static final String win_BORDER_CHAR = "X";
 	public static final String win_BLOCK_CHAR = "O";
 	public static final String win_BLANK_CHAR = "     ";
@@ -39,11 +39,9 @@ public class Board extends JFrame {
 
 	private BoardLayout mainPanel;
 	private JTextPane pane;
+	private JPanel main_panel;
 	private JTextPane next_pane;
 	private JTextPane score_pane;
-	private JTextPane next_block_pane;
-	private JPanel main_panel;
-	private JPanel side_panel;
 	private CompoundBorder border;
 
 
@@ -113,13 +111,6 @@ public class Board extends JFrame {
 			BLANK_CHAR = mac_BLANK_CHAR;
 		}
 
-
-		//Board display setting.
-
-		//this.getContentPane().add(game_pane, BorderLayout.WEST);
-
-//		mainPanel.setSidePane(side_panel);
-
 		//Document default style.
 		styleSet = new SimpleAttributeSet();
 		StyleConstants.setFontSize(styleSet, display_height/34);
@@ -127,8 +118,6 @@ public class Board extends JFrame {
 		StyleConstants.setBold(styleSet, true);
 		StyleConstants.setForeground(styleSet, Color.WHITE);
 		StyleConstants.setAlignment(styleSet, StyleConstants.ALIGN_CENTER);
-
-
 
 		//Set timer for block drops.
 		timer = new Timer(initInterval, new ActionListener() {
@@ -148,8 +137,6 @@ public class Board extends JFrame {
 			}
 		});
 
-		//Initialize board for the game.
-		//System.out.println(this.getHeight());
 		board = new int[HEIGHT][WIDTH];
 
 		next_board = new int[NEXT_HEIGHT][NEXT_WIDTH];
