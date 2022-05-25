@@ -27,6 +27,8 @@ public class VSmode extends JFrame {
     public static final int WIDTH = 10;
     public static final int NEXT_WIDTH = 6;
     public static final int NEXT_HEIGHT = 4;
+    public static final int ATTACK_HEIGHT = 10;
+    public static final int ATTACK_WIDTH = 10;
     public static String BORDER_CHAR = "X";
     public static String BLOCK_CHAR = "O";
     public static String BLANK_CHAR = " ";
@@ -140,9 +142,15 @@ public class VSmode extends JFrame {
         p.score_pane.setBackground(Color.BLACK);
         p.score_pane.setBorder(border);
 
+        p.attack_pane.setEditable(false);
+        p.attack_pane.setBackground(Color.BLACK);
+        p.attack_pane.setBorder(border);
+
         p.player.setSidePane(p.next_pane);
         p.player.setSidePane(p.score_pane);
+        p.player.setSidePane(p.attack_pane);
     }
+
     private void setPlayer(Player p) throws IOException {
         p.player = new BoardLayout(this.getX(), this.getY());
         p.main_panel = new JPanel();
@@ -154,6 +162,7 @@ public class VSmode extends JFrame {
 
         p.board = new int[HEIGHT][WIDTH];
         p.next_board = new int[NEXT_HEIGHT][NEXT_WIDTH];
+        p.attack_board = new int[ATTACK_HEIGHT][ATTACK_WIDTH];
         p.color_board = new Color[HEIGHT][WIDTH];
         p.curr = getRandomBlock();
         p.next_block = getRandomBlock();
@@ -269,10 +278,10 @@ public class VSmode extends JFrame {
         int y = p.y;
 
         for(int j=0; j<curr.height(); j++) {
-            int rows = j;//y+j == 0 ? 0 : y+j-1;
-            int offset = x;//rows * (WIDTH+3) + x + 1;
+            int rows = j;
+            int offset = x;
             for(int i=0; i<curr.width(); i++) {
-                if(board[y+j][x+i] == 0) {//요게 히트!!! 보드에 0이 아니면 그대로 유지해야함
+                if(board[y+j][x+i] == 0) {
                     board[y + j][x + i] = curr.getShape(i, j);
                     color_board[y+j][x+i] = curr.getColor();
                 }
@@ -548,7 +557,6 @@ public class VSmode extends JFrame {
 
         @Override
         public void keyPressed(KeyEvent e) {
-            System.out.println(e);
             try {
                 if(e.getKeyCode() == key_left1) {
                     moveLeft(p2);
@@ -611,6 +619,7 @@ public class VSmode extends JFrame {
         // 변수
         public int[][] board;
         public int[][] next_board;
+        public int[][] attack_board;
         public Color[][] color_board;
         public Block curr;
         public Block next_block;
@@ -624,5 +633,6 @@ public class VSmode extends JFrame {
         public JPanel main_panel;
         public JTextPane next_pane;
         public JTextPane score_pane;
+        public JTextPane attack_pane;
     }
 }
