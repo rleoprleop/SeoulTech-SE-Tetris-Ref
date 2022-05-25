@@ -51,6 +51,7 @@ public class Board extends JFrame {
 	private KeyListener playerKeyListener;
 	private SimpleAttributeSet styleSet;
 	private Timer timer;
+	private Timer press_timer;
 	private Block curr;
 	private Block next_block;
 	private static boolean ispaused = false;
@@ -63,6 +64,8 @@ public class Board extends JFrame {
 	private static final int initInterval = 1000;
 	int sprint=0;
 	private static final int SPMAX=900;
+
+	private int timerflag;
 
 	private static final int EASY = 72;
 	private static final int NORMAL = 70;
@@ -137,6 +140,18 @@ public class Board extends JFrame {
 			}
 		});
 
+		press_timer = new Timer(200, new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					pressDown();
+				} catch (IOException ioException) {
+					ioException.printStackTrace();
+				}
+				drawBoard();
+			}
+		});
+
 		board = new int[HEIGHT][WIDTH];
 
 		next_board = new int[NEXT_HEIGHT][NEXT_WIDTH];
@@ -157,6 +172,7 @@ public class Board extends JFrame {
 		placeBlock();
 		drawBoard();
 		timer.start();
+		timerflag=1;
 	}
 
 	private void setMain_panel(){
@@ -265,6 +281,10 @@ public class Board extends JFrame {
 					board[y + j][x + i] = curr.getShape(i, j);
 					color_board[y+j][x+i] = curr.getColor();
 				}
+				else if(curr.getClass().getName().contains("Press")){
+					board[y + j][x + i] = curr.getShape(i, j);
+					color_board[y+j][x+i] = curr.getColor();
+				}
 			}
 		}
 		placeNextBlock();
@@ -340,6 +360,8 @@ public class Board extends JFrame {
 			else return true;
 		}
 		else if(move == 't') { //돌릴 수 있는지 확인
+			if(curr.getClass().getName().contains("Press"))
+				return true;
 			curr.rotate();
 			int tmpX = x + curr.getCentermovedX();
 			int tmpY = y + curr.getCentermovedY();
@@ -498,12 +520,47 @@ public class Board extends JFrame {
 		}
 		else next_block = getRandomBlock();
 	}
+
+	protected void pressDown() throws IOException {
+		if(y + curr.height() < HEIGHT) {
+			eraseCurr();
+			y++;
+		}
+		else{
+			press_timer.stop();
+			placeBlock();
+			for(int i = y; i<y+curr.height(); i++) {
+				for (int j = 0; j < WIDTH; j++) {
+					if(board[i][j]==6){
+						board[i][j] = 0;
+					}
+				}
+			}
+			drawBoard();
+			timer.start();
+			timerflag=1;
+			ready_next();
+			x = 3;
+			y = 0;
+
+		}
+		placeBlock();
+		drawBoard();
+	}
+
 	protected void moveDown() throws IOException { //구조를 조금 바꿈 갈수잇는지 먼저 확인후에 갈수있으면 지우고 이동
 		if(!isBlocked('d')) {
 			eraseCurr();
 			y++;
 		}
+		else if(isBlocked('d')&&curr.getClass().getName().contains("Press")){
+			placeBlock();
+			timer.stop();
+			timerflag=0;
+			press_timer.start();
+		}
 		else {
+			timerflag=1;
 			placeBlock();
 			eraseRow();
 			ready_next();
@@ -584,7 +641,7 @@ public class Board extends JFrame {
 						//sb.append(BLOCK_CHAR);
 						StyleConstants.setForeground(styleSet, Color.WHITE);
 					} else {
-						doc.insertString(doc.getLength(), Character.toString(BLOCK_CHAR_LIST.charAt(board[i][j])), styleSet);
+						doc.insertString(doc.getLength(), Character.toString(BLOCK_CHAR_LIST.charAt(board[i][j])), styleSet);//머지 조심
 						//sb.append(BLANK_CHAR);
 					}
 				}
@@ -652,6 +709,8 @@ public class Board extends JFrame {
 
 		@Override
 		public void keyPressed(KeyEvent e) {
+			if(timerflag==0)
+				return;
 			try {
 				if(e.getKeyCode() == key_left) {
 					moveLeft();

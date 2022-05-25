@@ -7,7 +7,7 @@ public class Press extends Block {
 
     public Press() throws IOException {
         shape = new int[][] {
-                {6, 6, 6, 6},
+                {0, 6, 6, 0},
                 {6, 6, 6, 6}
         };
         if(color_weak)
