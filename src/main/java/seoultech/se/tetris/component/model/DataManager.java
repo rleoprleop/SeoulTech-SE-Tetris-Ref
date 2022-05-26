@@ -193,9 +193,10 @@ public class DataManager {
 
         if(keyArr.length > 6){
             data.put(KEY_LEFT2, keyArr[6]);
-            data.put(KEY_DOWN2, keyArr[7]);
-            data.put(KEY_ROTATE2, keyArr[8]);
-            data.put(KEY_HARDDROP2, keyArr[9]);
+            data.put(KEY_RIGHT2, keyArr[7]);
+            data.put(KEY_DOWN2, keyArr[8]);
+            data.put(KEY_ROTATE2, keyArr[9]);
+            data.put(KEY_HARDDROP2, keyArr[10]);
 
         }
         writeData(data.toString());
@@ -282,16 +283,24 @@ public class DataManager {
     public void resetting(){
         JSONObject data = readData();
 
-        data.put(KEY_LEVEL,data.get("ori_Level"));
-        data.put(KEY_COLOR,data.get("ori_Color_weak"));
-        data.put(KEY_DISPLAY,data.get("ori_Display"));
-        data.put(KEY_LEFT,data.get("ori_left"));
-        data.put(KEY_RIGHT,data.get("ori_right"));
-        data.put(KEY_ROTATE,data.get("ori_rotate"));
-        data.put(KEY_HARDDROP,data.get("ori_hardDrop"));
-        data.put(KEY_PAUSE,data.get("ori_pause"));
-        data.put(KEY_DOWN,data.get("ori_down"));
+        data.put(KEY_LEVEL, "normal");
+        data.put(KEY_COLOR, "off");
+        data.put(KEY_DISPLAY, "normal");
+        data.put(KEY_LEFT, 37);
+        data.put(KEY_RIGHT, 39);
+        data.put(KEY_ROTATE, 38);
+        data.put(KEY_HARDDROP, 32);
+        data.put(KEY_PAUSE, 27);
+        data.put(KEY_DOWN, 40);
+
+
+        data.put(KEY_LEFT2, 65);
+        data.put(KEY_RIGHT2, 68);
+        data.put(KEY_ROTATE2,87);
+        data.put(KEY_HARDDROP2, 84);
+        data.put(KEY_DOWN2, 83);
 
         writeData(data.toString());
     }
+//    {"rotate":38,"down2":68,"hardDrop2":84,"Color_weak":"off","left2":65,"right":39,"down":40,"pause":27,"mode":"normalScore","left":37,"right2":68,"rotate2":87,"Level":"normal","hardDrop":32,"Display":"normal"}
 }
