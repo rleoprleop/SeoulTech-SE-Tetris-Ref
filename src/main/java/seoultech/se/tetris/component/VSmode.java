@@ -47,8 +47,9 @@ public class VSmode extends JFrame {
     public static final int animate_idx = 6;
 
     private String mode;
-    private String item_mode = "itemScore";
-    private String normal_mode = "normalScore";
+    private String item_mode = "ItemMode";
+    private String normal_mode = "NormalMode";
+    private String attack_mode = "TimeAttack";
 
     //ready_game vs_mode
     private KeyListener playerKeyListener;
@@ -137,7 +138,7 @@ public class VSmode extends JFrame {
                 draw_time(p1);
                 draw_time(p2);
                 time++;
-                if(mode == "TimeAttack" && time > time_limit)
+                if(mode == attack_mode && time > time_limit)
                 {
                     String name = whoiswin(p1.total_score, p2.total_score, "timeover", mode);
                     end_game(name);
@@ -404,7 +405,7 @@ public class VSmode extends JFrame {
     public void draw_time(Player p) {
         JTextPane time_pane = p.time_pane;
         int final_time = time;
-        if(mode == "TimeAttack")
+        if(mode == attack_mode)
             final_time = time_limit-final_time;
 
         StyledDocument doc = time_pane.getStyledDocument();
