@@ -20,6 +20,7 @@ import java.util.Random;
 
 public class VSmode extends JFrame {
     private Player p1, p2;
+    private int sirialp1=987654321, sirialp2=123456789;
     private CompoundBorder border;
 
     private static boolean ispaused = false;
@@ -35,7 +36,7 @@ public class VSmode extends JFrame {
 
     //ready_game vs_mode
     private KeyListener playerKeyListener;
-    private SimpleAttributeSet styleSet;
+    private SimpleAttributeSet styleSet, styleSet2;
     private Timer timer;
 
     //key setted
@@ -62,6 +63,9 @@ public class VSmode extends JFrame {
         p1 = new Player();
         p2 = new Player();
 
+        p1.sirial = sirialp1;
+        p2.sirial = sirialp2;
+
         setPlayer(p1);
         setPlayer(p2);
 
@@ -74,6 +78,13 @@ public class VSmode extends JFrame {
         StyleConstants.setBold(styleSet, true);
         StyleConstants.setForeground(styleSet, Color.WHITE);
         StyleConstants.setAlignment(styleSet, StyleConstants.ALIGN_CENTER);
+
+        styleSet2 = new SimpleAttributeSet();
+        StyleConstants.setFontSize(styleSet2, display_height/34/2);
+        StyleConstants.setFontFamily(styleSet2, "Courier");
+        StyleConstants.setBold(styleSet2, true);
+        StyleConstants.setForeground(styleSet2, Color.WHITE);
+        StyleConstants.setAlignment(styleSet2, StyleConstants.ALIGN_CENTER);
 
         timer = new Timer(1000, new ActionListener() {
             @Override
@@ -142,8 +153,13 @@ public class VSmode extends JFrame {
         p.score_pane.setBackground(Color.BLACK);
         p.score_pane.setBorder(border);
 
+        p.attack_pane.setEditable(false);
+        p.attack_pane.setBackground(Color.BLACK);
+        p.attack_pane.setBorder(border);
+
         p.player.setSidePane(p.next_pane);
         p.player.setSidePane(p.score_pane);
+        p.player.setSidePane(p.attack_pane);
     }
 
     private void setPlayer(Player p) throws IOException {
@@ -153,12 +169,16 @@ public class VSmode extends JFrame {
         setMain_panel(p);
         p.next_pane = new JTextPane();
         p.score_pane = new JTextPane();
+        p.attack_pane = new JTextPane();
         setSide_panel(p);
 
         p.board = new int[HEIGHT][WIDTH];
         p.next_board = new int[NEXT_HEIGHT][NEXT_WIDTH];
         p.attack_board = new int[ATTACK_HEIGHT][ATTACK_WIDTH];
         p.color_board = new Color[HEIGHT][WIDTH];
+        for(int i=0; i<HEIGHT; i++)
+            for(int j=0; j<WIDTH; j++)
+                p.color_board[i][j] = Color.WHITE;
         p.curr = getRandomBlock();
         p.next_block = getRandomBlock();
     }
@@ -301,6 +321,73 @@ public class VSmode extends JFrame {
         }
     }
 
+    private void placeAttackBlock(Player p, int[][] attack) {
+        p.attack_board = upblock(p.attack_board, attack);
+        for(int i=0; i<attack.length; i++) {
+            for (int j = 0; j < attack[i].length; j++)
+                System.out.print(attack[i][j]);
+            System.out.println();
+        }
+        System.out.println();
+        drawAttackBoard(p);
+    }
+    private int[][] upblock(int[][] ori_board, int[][] new_board){
+        int up_num = 0;
+        int attack_num = 0;
+
+        for(int i=ori_board.length-1 ; i>=0; i--){
+            int j;
+            for(j=0; j<ori_board[0].length; j++){
+                if(ori_board[i][j] != 0) break;
+            }
+            if(j == ori_board[0].length) break;
+            else up_num++;
+        }
+
+        for(int i= new_board.length-1; i>=0; i--){
+            int j;
+            for(j=0; j<new_board[0].length; j++){
+                if(new_board[i][j] != 0) break;
+            }
+            if(up_num + attack_num >= ori_board.length) break;
+            if(j == new_board[0].length) break;
+            else attack_num++;
+        }
+        System.out.println(up_num + " " + attack_num);
+
+        for(int i = ori_board.length - up_num; i< ori_board.length; i++){
+            for(int j=0; j<ori_board[0].length; j++){
+                ori_board[i-attack_num][j] = ori_board[i][j];
+            }
+        }
+        for(int i= ori_board.length- attack_num; i < ori_board.length; i++){
+            for(int j=0; j<ori_board[0].length; j++) {
+                ori_board[i][j] = new_board[(new_board.length-attack_num) + i - (ori_board.length-attack_num)][j];
+            }
+        }
+        return ori_board;
+    }
+
+    private void drawAttackBoard(Player p){
+        JTextPane attack_pane = p.attack_pane;
+        int[][] attack_board = p.attack_board;
+        StringBuffer sb = new StringBuffer();
+        StyledDocument doc = attack_pane.getStyledDocument();
+        doc.setParagraphAttributes(0, doc.getLength(), styleSet2, false);
+        for(int i=0; i < ATTACK_HEIGHT; i++) {
+            for(int j=0; j < ATTACK_WIDTH; j++) {
+                if(attack_board[i][j] != 0) {
+                    sb.append(BLOCK_CHAR);
+                } else {
+                    sb.append(BLANK_CHAR);
+                }
+            }
+            sb.append("\n");
+        }
+        attack_pane.setText(sb.toString());
+        attack_pane.setStyledDocument(doc);
+    }
+
     public void pause() {
         if(!ispaused){
             ispaused = true;
@@ -381,6 +468,7 @@ public class VSmode extends JFrame {
         else {
             placeBlock(p);
             eraseRow(p);
+            at(p);
             ready_next(p);
             p.x = 3;
             p.y = 0;
@@ -393,6 +481,13 @@ public class VSmode extends JFrame {
         placeBlock(p);
         drawBoard(p);
     }
+    protected void at(Player p){
+        p.board=upblock(p.board, p.attack_board);
+        drawBoard(p);
+        p.attack_board = new int[ATTACK_HEIGHT][ATTACK_WIDTH];
+        drawAttackBoard(p);
+    }
+
 
     protected void ready_next(Player p) throws IOException {
 
@@ -406,30 +501,53 @@ public class VSmode extends JFrame {
         int board[][] = p.board;
 
         int lowest = y + curr.height() -1;
-        int curr_erase = 0;
+        int cnt = 0;
 
-        for(int i = lowest; i>=y; i--){
+//        for(int i = lowest; i>=y; i--){
+        int[] erase_list = new int[4];
+        for(int i=0; i<curr.height(); i++){
             boolean canErase = true;
             for(int j = 0; j < WIDTH; j++){
-                if(board[i][j] == 0)
+                if(board[y+i][j] == 0)
                 {
                     canErase = false;
                     break;
                 }
             }
             if(canErase) {
-                curr_erase += 1;
+                erase_list[cnt] = i;
+                cnt += 1;
                 for(int j = 0; j<WIDTH; j++) {
-                    p.board[i][j] = 0;
+                    p.board[y+i][j] = 0;
                 }
             }
         }
+        if(cnt > 1)
+            make_attack(erase_list, cnt, p);
 
-        cal_score(curr_erase,p);
+        cal_score(cnt,p);
         for(int i = lowest; i>=0; i--){
             down(i,p);
         }
     }
+    private void make_attack(int[] erase_list, int cnt, Player p) {
+        int y = p.y, x = p.x;
+        int[][] attack = new int[cnt][ATTACK_WIDTH];
+        for(int i=0; i<cnt; i++)
+            for(int j=0; j<ATTACK_WIDTH; j++)
+                attack[i][j] = 1;
+        for(int i=0; i<cnt; i++)
+        {
+            for(int j=0; j<p.curr.width(); j++){
+                if(p.curr.getShape(j, erase_list[i]) != 0)
+                    attack[i][x+j] = 0;
+            }
+        }
+        if(p.sirial == sirialp1)
+            placeAttackBlock(p2, attack);
+        else placeAttackBlock(p1, attack);
+    }
+
 
     protected void down(int row, Player p) {
         boolean canDown = true;
@@ -629,5 +747,7 @@ public class VSmode extends JFrame {
         public JTextPane next_pane;
         public JTextPane score_pane;
         public JTextPane attack_pane;
+
+        public int sirial;
     }
 }
