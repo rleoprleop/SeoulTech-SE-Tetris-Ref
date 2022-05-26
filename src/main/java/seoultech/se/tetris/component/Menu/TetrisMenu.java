@@ -1,6 +1,8 @@
-package seoultech.se.tetris.component;
+package seoultech.se.tetris.component.Menu;
 
+import seoultech.se.tetris.component.*;
 import seoultech.se.tetris.component.model.ScoreDataManager;
+import seoultech.se.tetris.component.VSModeMenu;
 
 import javax.swing.*;
 import javax.swing.text.SimpleAttributeSet;
@@ -137,7 +139,7 @@ public class TetrisMenu extends JFrame {
                 this.dispose();
                 break;
             case 5: //item mode
-                new VSmode(this.getLocation().x, this.getLocation().y);
+                new VSModeMenu(this.getLocation().x, this.getLocation().y);
                 this.dispose();
                 break;
             default:

@@ -1,7 +1,6 @@
 package seoultech.se.tetris.component.pause;
 
-import seoultech.se.tetris.component.Board;
-import seoultech.se.tetris.component.TetrisMenu;
+import seoultech.se.tetris.component.Menu.TetrisMenu;
 import seoultech.se.tetris.component.VSmode;
 
 import javax.swing.*;

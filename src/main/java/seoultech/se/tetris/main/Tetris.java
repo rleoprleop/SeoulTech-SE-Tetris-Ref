@@ -1,6 +1,6 @@
 package seoultech.se.tetris.main;
 
-import seoultech.se.tetris.component.TetrisMenu;
+import seoultech.se.tetris.component.Menu.TetrisMenu;
 
 public class Tetris {
 
