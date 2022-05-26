@@ -20,7 +20,7 @@ public class PauseVsMode extends JFrame {
     private VSmode board;
 
     public PauseVsMode(VSmode board){
-        board = board;
+        this.board = board;
         this.setSize(board.getWidth(), board.getHeight()/2);
         this.setLocation(board.getX(), board.getHeight()/2 - board.getHeight()/4+board.getY());
         this.setLayout(new GridLayout(3,1,0,0));
@@ -63,7 +63,8 @@ public class PauseVsMode extends JFrame {
                         if (status == BACK) {
                             board.pause();
                             disPose();
-                        } else if (status == END) {
+                        }
+                        else if (status == END) {
                             new TetrisMenu(board.getLocation().x, board.getLocation().y);
                             board.dispose();
                             disPose();
