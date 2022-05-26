@@ -1,4 +1,7 @@
-package seoultech.se.tetris.component;
+package seoultech.se.tetris.component.pause;
+
+import seoultech.se.tetris.component.Board;
+import seoultech.se.tetris.component.TetrisMenu;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,7 +17,6 @@ public class Pause extends JFrame {
     private JPanel menuPane;
     private JButton backGame, terminate;
     private Board board1;
-//    private Robot robot;
 
     public Pause(int x, int y, int frameW, int frameH, Board board){
         board1 = board;
@@ -71,8 +73,6 @@ public class Pause extends JFrame {
                             status++;
                             backGame.setSelected(false);
                             terminate.setSelected(true);
-//                          mouseCursorMove(terminate.getLocation().x, terminate.getLocation().y);
-
                         }
                         break;
                     case KeyEvent.VK_LEFT:
@@ -81,7 +81,6 @@ public class Pause extends JFrame {
 
                         terminate.setSelected(false);
                         backGame.setSelected(true);
-//                        mouseCursorMove(backGame.getLocation().x, backGame.getLocation().y);
                         break;
                 }
             }
@@ -99,18 +98,4 @@ public class Pause extends JFrame {
     private void disPose() {
         this.dispose();
     }
-
-
-//    private void mouseCursorMove(int x, int y){
-//        try{
-//            robot = new Robot();
-//            robot.mouseMove(x,y);
-//            robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
-//            robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
-//        } catch (AWTException e){
-//            e.printStackTrace();
-//        }
-//
-//
-//    }
 }

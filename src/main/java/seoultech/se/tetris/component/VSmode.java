@@ -2,7 +2,7 @@ package seoultech.se.tetris.component;
 
 import seoultech.se.tetris.blocks.*;
 import seoultech.se.tetris.component.model.DataManager;
-import seoultech.se.tetris.component.model.ScoreDataManager;
+import seoultech.se.tetris.component.pause.PauseVsMode;
 
 import javax.swing.*;
 import javax.swing.border.CompoundBorder;
@@ -392,7 +392,7 @@ public class VSmode extends JFrame {
         if(!ispaused){
             ispaused = true;
             timer.stop();
-
+            new PauseVsMode();
         }
         else{
             this.setVisible(true);
