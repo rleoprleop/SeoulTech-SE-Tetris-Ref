@@ -604,7 +604,7 @@ public class Board extends JFrame {
 			placeBlock();
 			for(int i = y; i<y+curr.height(); i++) {
 				for (int j = 0; j < WIDTH; j++) {
-					if(board[i][j]==6){
+					if(board[i][j]==7){
 						board[i][j] = 0;
 					}
 				}

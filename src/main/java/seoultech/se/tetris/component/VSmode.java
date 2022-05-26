@@ -642,7 +642,7 @@ public class VSmode extends JFrame {
             placeBlock(p);
             for(int i = p.y; i<p.y+p.curr.height(); i++) {
                 for (int j = 0; j < WIDTH; j++) {
-                    if(p.board[i][j]==6){
+                    if(p.board[i][j]==7){
                         p.board[i][j] = 0;
                     }
                 }
