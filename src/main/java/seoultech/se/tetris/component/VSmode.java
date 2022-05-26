@@ -1,7 +1,6 @@
 package seoultech.se.tetris.component;
 
 import seoultech.se.tetris.blocks.*;
-import seoultech.se.tetris.component.endGame.EndGame;
 import seoultech.se.tetris.component.endGame.VsModeEndGame;
 import seoultech.se.tetris.component.model.DataManager;
 import seoultech.se.tetris.component.pause.PauseVsMode;
@@ -42,6 +41,7 @@ public class VSmode extends JFrame {
     private SimpleAttributeSet styleSet, styleSet2;
     private Timer timer,timeattack;
     private int time = 0;
+    private int time_limit = 30;
 
     //key setted
     private int display_width = 1000;
@@ -109,6 +109,11 @@ public class VSmode extends JFrame {
                 draw_time(p1);
                 draw_time(p2);
                 time++;
+                if(mode == "TimeAttack" && time > time_limit)
+                {
+                    String name = whoiswin(p1.total_score, p2.total_score, "timeover", mode);
+                    end_game(name);
+                }
             }
         });
 
@@ -298,13 +303,16 @@ public class VSmode extends JFrame {
 
     public void draw_time(Player p) {
         JTextPane time_pane = p.time_pane;
+        int final_time = time;
+        if(mode == "TimeAttack")
+            final_time = time_limit-final_time;
 
         StyledDocument doc = time_pane.getStyledDocument();
         StyleConstants.setForeground(styleSet, Color.WHITE);
         doc.setParagraphAttributes(0, doc.getLength(), styleSet, false);
         StringBuffer sb = new StringBuffer();
         sb.append("Time : ");
-        sb.append(time);
+        sb.append(final_time);
         time_pane.setText(sb.toString());
         time_pane.setStyledDocument(doc);
     }
@@ -509,10 +517,10 @@ public class VSmode extends JFrame {
 
     protected void moveDown(Player p) throws IOException { //구조를 조금 바꿈 갈수잇는지 먼저 확인후에 갈수있으면 지우고 이동
         int total_score = p.total_score;
-        String name;
+        String loser;
 
-        if(p.sirial == sirialp1) name = "Player1";
-        else name = "Player2";
+        if(p.sirial == sirialp1) loser = "Player1";
+        else loser = "Player2";
 
         if(!isBlocked('d',p)) {
             eraseCurr(p);
@@ -526,14 +534,45 @@ public class VSmode extends JFrame {
             p.x = 3;
             p.y = 0;
             if(isBlocked('d', p)){
-                timer.stop();
-                new VsModeEndGame(this.getLocation().x, this.getLocation().y, name, mode);
-                this.dispose();
+                String name = whoiswin(p1.total_score, p2.total_score, loser, mode);
+                end_game(name);
             }
         }
         placeBlock(p);
         drawBoard(p);
     }
+    protected String whoiswin(int score1, int score2, String loser, String mode){
+        String ans;
+        if(loser == "Player1")
+            ans = "Player 2";
+        else ans = "Player 1";
+        if(mode == "TimeAttack")
+        {
+            if(loser == "timeover")
+            {
+                if(score1 < score2)
+                    ans = "Player 2";
+                else if(score1 > score2) {
+                    ans = "Player 1";
+                }
+                else {
+                    ans = "Draw";
+                }
+            }
+            else if(loser == "Player1")
+                ans = "Player 2";
+            else ans = "Player 1";
+        }
+        return ans;
+    }
+
+    protected void end_game(String name){
+        timer.stop();
+        timeattack.stop();
+        new VsModeEndGame(this.getLocation().x, this.getLocation().y, name, mode);
+        this.dispose();
+    }
+
     protected void at(Player p){
         p.board=upblock(p.board, p.attack_board);
         drawBoard(p);
