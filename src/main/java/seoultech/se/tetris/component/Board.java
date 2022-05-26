@@ -742,7 +742,9 @@ public class Board extends JFrame {
 		StyledDocument doc = next_pane.getStyledDocument();
 		StyleConstants.setForeground(styleSet, next_block.getColor());
 		doc.setParagraphAttributes(0, doc.getLength(), styleSet, false);
+
 		for(int i=0; i < NEXT_HEIGHT; i++) {
+
 			for(int j=0; j < NEXT_WIDTH; j++) {
 				if(next_board[i][j] != 0) {
 					sb.append(Character.toString(BLOCK_CHAR_LIST.charAt(next_board[i][j])));

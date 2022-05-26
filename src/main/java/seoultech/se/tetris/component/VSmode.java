@@ -60,7 +60,7 @@ public class VSmode extends JFrame {
         this.mode = mode;
 
         this.setLocation(x, y);
-        this.setLayout(new BorderLayout());
+        this.setLayout(new BorderLayout(10,10));
         JPanel mainPanel = new JPanel(new GridLayout(1,2,10,10));
         JPanel timePanel = new JPanel(new GridLayout(1,1,10,10));
         timePanel.setBorder(new EmptyBorder(0,80,0,80));
