@@ -52,10 +52,10 @@ public class KeySetting extends JFrame{
 
     private void setMenuPanel() {
         menuPanel = new JPanel(new GridLayout(4,1,0,0));
-        ImageIcon level_activate = new ImageIcon(changeImgSize("img/settingMenu/Level_activate.png"));
-        ImageIcon level_disabled = new ImageIcon(changeImgSize("img/settingMenu/Level_disabled.png"));
-        ImageIcon colorweak_activate = new ImageIcon(changeImgSize("img/settingMenu/Colorweak_activate.png"));
-        ImageIcon colorweak_disabled = new ImageIcon(changeImgSize("img/settingMenu/Colorweak_disabled.png"));
+        ImageIcon level_activate = new ImageIcon(changeImgSize("img/settingMenu/1p_ac.png"));
+        ImageIcon level_disabled = new ImageIcon(changeImgSize("img/settingMenu/1p_ac.pngg"));
+        ImageIcon colorweak_activate = new ImageIcon(changeImgSize("img/settingMenu/2p_ac.png"));
+        ImageIcon colorweak_disabled = new ImageIcon(changeImgSize("img/settingMenu/2p_ac.png"));
 
 
         JPanel levelPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
