@@ -8,6 +8,7 @@ import seoultech.se.tetris.component.pause.PauseVsMode;
 
 import javax.swing.*;
 import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
@@ -59,7 +60,12 @@ public class VSmode extends JFrame {
         this.mode = mode;
 
         this.setLocation(x, y);
-        this.setLayout(new GridLayout(1,2,10,10));
+        this.setLayout(new BorderLayout());
+        JPanel mainPanel = new JPanel(new GridLayout(1,2,10,10));
+        JPanel timePanel = new JPanel(new GridLayout(1,1,10,10));
+        timePanel.setBorder(new EmptyBorder(0,80,0,80));
+
+
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(display_width, display_height);
         playerKeyListener = new VSmode.PlayerKeyListener();
@@ -76,8 +82,12 @@ public class VSmode extends JFrame {
         setPlayer(p1);
         setPlayer(p2);
 
-        this.add(p1.player);
-        this.add(p2.player);
+        mainPanel.add(p1.player);
+        mainPanel.add(p2.player);
+        timePanel.add(p1.time_pane);
+
+        this.add(timePanel, BorderLayout.NORTH);
+        this.add(mainPanel, BorderLayout.CENTER);
 
         styleSet = new SimpleAttributeSet();
         StyleConstants.setFontSize(styleSet, display_height/34);
@@ -179,7 +189,7 @@ public class VSmode extends JFrame {
         p.time_pane.setBackground(Color.BLACK);
         p.time_pane.setBorder(border);
 
-        p.player.setSidePane(p.time_pane);
+//        p.player.setSidePane(p.time_pane);
         p.player.setSidePane(p.next_pane);
         p.player.setSidePane(p.score_pane);
         p.player.setSidePane(p.attack_pane);
@@ -293,7 +303,7 @@ public class VSmode extends JFrame {
         StyleConstants.setForeground(styleSet, Color.WHITE);
         doc.setParagraphAttributes(0, doc.getLength(), styleSet, false);
         StringBuffer sb = new StringBuffer();
-        sb.append("\nTime : ");
+        sb.append("Time : ");
         sb.append(time);
         time_pane.setText(sb.toString());
         time_pane.setStyledDocument(doc);
