@@ -39,7 +39,8 @@ public class VSmode extends JFrame {
     //ready_game vs_mode
     private KeyListener playerKeyListener;
     private SimpleAttributeSet styleSet, styleSet2;
-    private Timer timer;
+    private Timer timer,timeattack;
+    private int time = 0;
 
     //key setted
     private int display_width = 1000;
@@ -88,6 +89,16 @@ public class VSmode extends JFrame {
         StyleConstants.setForeground(styleSet2, Color.WHITE);
         StyleConstants.setAlignment(styleSet2, StyleConstants.ALIGN_CENTER);
 
+        timeattack = new Timer(1000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                draw_time(p1);
+                draw_time(p2);
+                time++;
+            }
+        });
+
+
         timer = new Timer(1000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -102,6 +113,7 @@ public class VSmode extends JFrame {
         });
 
         timer.start();
+        timeattack.start();
         setTitle("VSMode");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
@@ -159,6 +171,11 @@ public class VSmode extends JFrame {
         p.attack_pane.setBackground(Color.BLACK);
         p.attack_pane.setBorder(border);
 
+        p.time_pane.setEditable(false);
+        p.time_pane.setBackground(Color.BLACK);
+        p.time_pane.setBorder(border);
+
+        p.player.setSidePane(p.time_pane);
         p.player.setSidePane(p.next_pane);
         p.player.setSidePane(p.score_pane);
         p.player.setSidePane(p.attack_pane);
@@ -172,6 +189,7 @@ public class VSmode extends JFrame {
         p.next_pane = new JTextPane();
         p.score_pane = new JTextPane();
         p.attack_pane = new JTextPane();
+        p.time_pane = new JTextPane();
         setSide_panel(p);
 
         p.board = new int[HEIGHT][WIDTH];
@@ -262,6 +280,19 @@ public class VSmode extends JFrame {
         sb.append(total_score);
         score_pane.setText(sb.toString());
         score_pane.setStyledDocument(doc);
+    }
+
+    public void draw_time(Player p) {
+        JTextPane time_pane = p.time_pane;
+
+        StyledDocument doc = time_pane.getStyledDocument();
+        StyleConstants.setForeground(styleSet, Color.WHITE);
+        doc.setParagraphAttributes(0, doc.getLength(), styleSet, false);
+        StringBuffer sb = new StringBuffer();
+        sb.append("\nTime : ");
+        sb.append(time);
+        time_pane.setText(sb.toString());
+        time_pane.setStyledDocument(doc);
     }
 
     public void draw_next(Player p){
@@ -394,12 +425,14 @@ public class VSmode extends JFrame {
         if(!ispaused){
             ispaused = true;
             timer.stop();
+            timeattack.stop();
             new PauseVsMode(this);
         }
         else{
             this.setVisible(true);
             ispaused = false;
             timer.start();
+            timeattack.start();
         }
     }
 
@@ -753,6 +786,7 @@ public class VSmode extends JFrame {
         public JTextPane next_pane;
         public JTextPane score_pane;
         public JTextPane attack_pane;
+        public JTextPane time_pane;
 
         public int sirial;
     }
