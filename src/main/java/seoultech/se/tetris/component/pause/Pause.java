@@ -19,7 +19,7 @@ public class Pause extends JFrame {
     private Board board;
 
     public Pause(Board board){
-        board = board;
+        this.board = board;
         this.setSize(board.getWidth(), board.getHeight()/2);
         this.setLocation(board.getX(), board.getHeight()/2 - board.getHeight()/4+board.getY());
         this.setLayout(new GridLayout(3,1,0,0));
@@ -49,53 +49,57 @@ public class Pause extends JFrame {
         backGame.setPreferredSize(new Dimension(this.getWidth()/4,this.getHeight()/3-20));
         terminate.setPreferredSize(new Dimension(this.getWidth()/4,this.getHeight()/3-20));
 
-        backGame.addKeyListener(new KeyListener() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-
-            }
-
-            @Override
-            public void keyPressed(KeyEvent e) {
-                switch (e.getKeyCode()) {
-                    case KeyEvent.VK_ENTER:
-                        if (status == BACK) {
-                            board.pause();
-                            disPose();
-                        } else if (status == END) {
-                            new TetrisMenu(board.getLocation().x, board.getLocation().y);
-                            board.dispose();
-                            disPose();
-                        }
-                        break;
-                    case KeyEvent.VK_RIGHT:
-                        if(status < numMenu) {
-                            status++;
-                            backGame.setSelected(false);
-                            terminate.setSelected(true);
-                        }
-                        break;
-                    case KeyEvent.VK_LEFT:
-                        if(status > 1)
-                            status--;
-
-                        terminate.setSelected(false);
-                        backGame.setSelected(true);
-                        break;
-                }
-            }
-
-            @Override
-            public void keyReleased(KeyEvent e) {
-
-            }
-        });
+        backGame.addKeyListener(new MyLister());
+        terminate.addKeyListener(new MyLister());
 
         menuPane.add(backGame);
         menuPane.add(terminate);
     }
 
-    private void disPose() {
+    private class MyLister implements KeyListener {
+        @Override
+        public void keyTyped(KeyEvent e) {
+
+        }
+
+        @Override
+        public void keyPressed(KeyEvent e) {
+            switch (e.getKeyCode()) {
+                case KeyEvent.VK_ENTER:
+                    if (status == BACK) {
+                        board.pause();
+                        disPose();
+                    } else if (status == END) {
+                        new TetrisMenu(board.getLocation().x, board.getLocation().y);
+                        board.dispose();
+                        disPose();
+                    }
+                    break;
+                case KeyEvent.VK_RIGHT:
+                    if(status < numMenu) {
+                        status++;
+                        backGame.setSelected(false);
+                        terminate.setSelected(true);
+                    }
+                    break;
+                case KeyEvent.VK_LEFT:
+                    if(status > 1)
+                        status--;
+
+                    terminate.setSelected(false);
+                    backGame.setSelected(true);
+                    break;
+            }
+        }
+
+        @Override
+        public void keyReleased(KeyEvent e) {
+
+        }
+    }
+
+
+        private void disPose() {
         this.dispose();
     }
 }
