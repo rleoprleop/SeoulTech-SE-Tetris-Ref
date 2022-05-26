@@ -17,29 +17,23 @@ import java.io.IOException;
 public class VsModeEndGame extends JFrame {
     private JPanel scorePane, menuPane, winPanel;
     private JButton restart, terminate;
-    private final int score1, score2;
-    private String mode;
+    private String name;
 
-    public VsModeEndGame(int x, int y, int score1, int score2) {
-        this.score1 = score1;
-        this.score2 = score2;
+    public VsModeEndGame(int x, int y, String name) {
+        this.name = name;
 
         this.setLocation(x,y);
         this.setSize(600,500);
-        this.setLayout(new BorderLayout());
+        this.setLayout(new GridLayout(4,1,10,10));
 
         setWinPanel();
-        setScorePane();
         setMenuPane();
 
-        JPanel jp = new JPanel(new GridLayout(3,1,10,10));
-        jp.add(new JPanel());
-        jp.add(scorePane);
+        this.add(new JPanel());
+        this.add(winPanel);
 
-        this.add(winPanel, BorderLayout.NORTH);
-        this.add(jp, BorderLayout.CENTER);
-        this.add(menuPane, BorderLayout.SOUTH);
-
+        this.add(new JPanel());
+        this.add(menuPane);
         setTitle("게임 종료");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
@@ -47,54 +41,17 @@ public class VsModeEndGame extends JFrame {
     void setWinPanel(){
         winPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         JLabel winLb = new JLabel();
-        if(score1 > score2){
-            winLb.setText("Player1 Win!");
+
+        if(name == "Draw"){
+            winLb.setText(name + "!");
         }
-        else if(score1 < score2){
-            winLb.setText("Player2 Win!");
+        else {
+            winLb.setText(name + " Win!");
         }
-        else{
-            winLb.setText("Draw!");
-        }
-        winLb.setFont(winLb.getFont().deriveFont(30.0f));
+        winLb.setFont(winLb.getFont().deriveFont(40.0f));
         winPanel.add(winLb);
     }
 
-    void setScorePane() {
-        scorePane = new JPanel(new GridLayout(1,2,10,10));
-
-        JPanel player1 = new JPanel(new BorderLayout());
-        JPanel p1Panel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        JLabel p1Lb = new JLabel("Player1");
-        p1Lb.setFont(p1Lb.getFont().deriveFont(23.0f));
-        p1Panel.add(p1Lb);
-
-        JPanel p1ScorePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        JLabel p1ScoreLb = new JLabel(score1+"점");
-        p1ScoreLb.setFont(p1ScoreLb.getFont().deriveFont(23.0f));
-        p1ScorePanel.add(p1ScoreLb);
-
-        player1.add(p1Panel, BorderLayout.NORTH);
-        player1.add(p1ScorePanel, BorderLayout.CENTER);
-
-        JPanel player2 = new JPanel(new BorderLayout());
-
-        JPanel p2Panel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        JLabel p2Lb = new JLabel("Player2");
-        p2Lb.setFont(p2Lb.getFont().deriveFont(23.0f));
-        p2Panel.add(p2Lb);
-
-        JPanel p2ScorePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        JLabel p2ScoreLb = new JLabel(score2+"점");
-        p2ScoreLb.setFont(p2ScoreLb.getFont().deriveFont(23.0f));
-        p2ScorePanel.add(p2ScoreLb);
-
-        player2.add(p2Panel, BorderLayout.NORTH);
-        player2.add(p2ScorePanel, BorderLayout.CENTER);
-
-        scorePane.add(player1);
-        scorePane.add(player2);
-    }
 
     void setMenuPane() {
         menuPane = new JPanel(new FlowLayout(FlowLayout.CENTER, 60, 0));

@@ -462,6 +462,10 @@ public class VSmode extends JFrame {
 
     protected void moveDown(Player p) throws IOException { //구조를 조금 바꿈 갈수잇는지 먼저 확인후에 갈수있으면 지우고 이동
         int total_score = p.total_score;
+        String name;
+
+        if(p.sirial == sirialp1) name = "Player1";
+        else name = "Player2";
 
         if(!isBlocked('d',p)) {
             eraseCurr(p);
@@ -476,7 +480,7 @@ public class VSmode extends JFrame {
             p.y = 0;
             if(isBlocked('d', p)){
                 timer.stop();
-                new VsModeEndGame(this.getLocation().x, this.getLocation().y, p1.total_score, p2.total_score);
+                new VsModeEndGame(this.getLocation().x, this.getLocation().y,  name);
                 this.dispose();
             }
         }
