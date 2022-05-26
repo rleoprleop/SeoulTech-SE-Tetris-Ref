@@ -325,12 +325,12 @@ public class VSmode extends JFrame {
 
     private void placeAttackBlock(Player p, int[][] attack) {
         p.attack_board = upblock(p.attack_board, attack);
-        for(int i=0; i<attack.length; i++) {
-            for (int j = 0; j < attack[i].length; j++)
-                System.out.print(attack[i][j]);
-            System.out.println();
-        }
-        System.out.println();
+//        for(int i=0; i<attack.length; i++) {
+//            for (int j = 0; j < attack[i].length; j++)
+//                System.out.print(attack[i][j]);
+//            System.out.println();
+//        }
+//        System.out.println();
         drawAttackBoard(p);
     }
     private int[][] upblock(int[][] ori_board, int[][] new_board){
@@ -355,7 +355,7 @@ public class VSmode extends JFrame {
             if(j == new_board[0].length) break;
             else attack_num++;
         }
-        System.out.println(up_num + " " + attack_num);
+        //System.out.println(up_num + " " + attack_num);
 
         for(int i = ori_board.length - up_num; i< ori_board.length; i++){
             for(int j=0; j<ori_board[0].length; j++){
