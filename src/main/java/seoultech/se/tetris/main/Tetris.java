@@ -1,9 +1,6 @@
 package seoultech.se.tetris.main;
 
-import seoultech.se.tetris.component.EndGame;
 import seoultech.se.tetris.component.TetrisMenu;
-import seoultech.se.tetris.component.VSmode;
-import seoultech.se.tetris.component.model.ScoreDataManager;
 
 public class Tetris {
 

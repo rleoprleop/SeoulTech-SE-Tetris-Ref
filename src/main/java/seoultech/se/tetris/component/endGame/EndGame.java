@@ -1,5 +1,7 @@
-package seoultech.se.tetris.component;
+package seoultech.se.tetris.component.endGame;
 
+import seoultech.se.tetris.component.Board;
+import seoultech.se.tetris.component.TetrisMenu;
 import seoultech.se.tetris.component.model.ScoreDataManager;
 
 import javax.swing.*;
@@ -142,7 +144,6 @@ public class EndGame extends JFrame {
                 int idx = ScoreDataManager.getInstance().getRowsFromTable(writeName.getText(), score, mode);
                 if(row==idx) {
                     Font myFont1 = new Font("Serif", Font.BOLD, 15);
-//                    cell.setBackground(Color.CYAN);
                     cell.setFont(myFont1);
                 }
             }

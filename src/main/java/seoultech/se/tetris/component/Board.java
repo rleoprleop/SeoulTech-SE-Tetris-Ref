@@ -13,6 +13,7 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.text.*;
 
 import seoultech.se.tetris.blocks.*;
+import seoultech.se.tetris.component.endGame.EndGame;
 import seoultech.se.tetris.component.model.DataManager;
 import seoultech.se.tetris.component.pause.Pause;
 

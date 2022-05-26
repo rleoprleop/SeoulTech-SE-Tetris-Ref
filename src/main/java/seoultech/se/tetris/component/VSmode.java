@@ -1,6 +1,8 @@
 package seoultech.se.tetris.component;
 
 import seoultech.se.tetris.blocks.*;
+import seoultech.se.tetris.component.endGame.EndGame;
+import seoultech.se.tetris.component.endGame.VsModeEndGame;
 import seoultech.se.tetris.component.model.DataManager;
 import seoultech.se.tetris.component.pause.PauseVsMode;
 
@@ -474,7 +476,7 @@ public class VSmode extends JFrame {
             p.y = 0;
             if(isBlocked('d', p)){
                 timer.stop();
-                new EndGame(this.getLocation().x, this.getLocation().y, total_score, "normalScore");
+                new VsModeEndGame(this.getLocation().x, this.getLocation().y, p1.total_score, p2.total_score);
                 this.dispose();
             }
         }
