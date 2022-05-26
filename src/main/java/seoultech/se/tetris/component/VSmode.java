@@ -392,7 +392,7 @@ public class VSmode extends JFrame {
         if(!ispaused){
             ispaused = true;
             timer.stop();
-            new PauseVsMode();
+            new PauseVsMode(this);
         }
         else{
             this.setVisible(true);

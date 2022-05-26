@@ -16,12 +16,12 @@ public class Pause extends JFrame {
 
     private JPanel menuPane;
     private JButton backGame, terminate;
-    private Board board1;
+    private Board board;
 
-    public Pause(int x, int y, int frameW, int frameH, Board board){
-        board1 = board;
-        this.setSize(frameW, frameH/2);
-        this.setLocation(x, frameH/2 - frameH/4+y);
+    public Pause(Board board){
+        board = board;
+        this.setSize(board.getWidth(), board.getHeight()/2);
+        this.setLocation(board.getX(), board.getHeight()/2 - board.getHeight()/4+board.getY());
         this.setLayout(new GridLayout(3,1,0,0));
 
         status = 1;
@@ -60,11 +60,11 @@ public class Pause extends JFrame {
                 switch (e.getKeyCode()) {
                     case KeyEvent.VK_ENTER:
                         if (status == BACK) {
-                            board1.pause();
+                            board.pause();
                             disPose();
                         } else if (status == END) {
-                            new TetrisMenu(board1.getLocation().x, board1.getLocation().y);
-                            board1.dispose();
+                            new TetrisMenu(board.getLocation().x, board.getLocation().y);
+                            board.dispose();
                             disPose();
                         }
                         break;

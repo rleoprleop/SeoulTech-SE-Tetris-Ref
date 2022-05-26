@@ -659,7 +659,7 @@ public class Board extends JFrame {
 		if(!ispaused){
 			ispaused = true;
 			timer.stop();
-			new Pause(this.getLocation().x, this.getLocation().y,this.getSize().width, this.getSize().height, this);
+			new Pause(this);
 
 		}
 		else{

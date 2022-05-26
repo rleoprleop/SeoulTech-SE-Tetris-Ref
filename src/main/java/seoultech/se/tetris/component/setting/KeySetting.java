@@ -199,7 +199,7 @@ public class KeySetting extends JFrame {
 
     private void go_back() {
         if(errorCheck()) {
-            DataManager.getInstance().setKey(leftCode, rightCode, downCode, pauseCode, rotateCode, hardDropCode);
+            DataManager.getInstance().setKey(keyArr[]);
             new Setting(getThis().getLocation().x, getThis().getLocation().y);
             getThis().dispose();
         }

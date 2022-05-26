@@ -182,18 +182,6 @@ public class DataManager {
         return display_height;
     }
 
-
-<<<<<<< Updated upstream
-    public void setKey(int left, int right, int down, int pause, int rotate, int hardDrop){
-        JSONObject data = readData();
-        data.put(KEY_LEFT, left);
-        data.put(KEY_RIGHT, right);
-        data.put(KEY_DOWN, down);
-        data.put(KEY_PAUSE, pause);
-        data.put(KEY_ROTATE, rotate);
-        data.put(KEY_HARDDROP, hardDrop);
-=======
-
     public void setKey(int keyArr[]){
         JSONObject data = readData();
         data.put(KEY_LEFT, keyArr[0]);
@@ -210,7 +198,6 @@ public class DataManager {
             data.put(KEY_HARDDROP2, keyArr[9]);
 
         }
->>>>>>> Stashed changes
         writeData(data.toString());
     }
 

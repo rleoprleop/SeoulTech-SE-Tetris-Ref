@@ -19,11 +19,10 @@ public class PauseVsMode extends JFrame {
     private JButton backGame, terminate;
     private VSmode board;
 
-    public PauseVsMode(int x, int y, int frameW, int frameH, VSmode board){
+    public PauseVsMode(VSmode board){
         board = board;
-        board.getWidth()
         this.setSize(board.getWidth(), board.getHeight()/2);
-        this.setLocation(board.getX(), frameH/2 - frameH/4+board.getY);
+        this.setLocation(board.getX(), board.getHeight()/2 - board.getHeight()/4+board.getY());
         this.setLayout(new GridLayout(3,1,0,0));
 
         status = 1;
