@@ -550,13 +550,16 @@ public class VSmode extends JFrame {
     public void pause() {
         if(!ispaused){
             ispaused = true;
+            p1.timer.stop();
+            p2.timer.stop();
             timeattack.stop();
             new PauseVsMode(this);
         }
         else{
             this.setVisible(true);
             ispaused = false;
-            timer.start();
+            p1.timer.start();
+            p2.timer.start();
             timeattack.start();
         }
     }
@@ -711,7 +714,8 @@ public class VSmode extends JFrame {
     }
 
     protected void end_game(String name){
-        timer.stop();
+        p1.timer.stop();
+        p2.timer.stop();
         timeattack.stop();
         new VsModeEndGame(this.getLocation().x, this.getLocation().y, name, mode);
         this.dispose();
