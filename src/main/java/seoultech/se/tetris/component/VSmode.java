@@ -41,10 +41,10 @@ public class VSmode extends JFrame {
     public static final String mac_BORDER_CHAR = "X";
     public static final String mac_BLOCK_CHAR = "O";
     public static final String mac_BLANK_CHAR = " ";
-    public static final String BLOCK_CHAR_LIST = " OOLEDOXXXXX";
+    public static final String BLOCK_CHAR_LIST = " OOLEDTOXXXXXXX";
 
     public static String os;
-    public static final int animate_idx = 6;
+    public static final int animate_idx = 7;
 
     private String mode;
     private String item_mode = "ItemMode";
@@ -56,7 +56,7 @@ public class VSmode extends JFrame {
     private SimpleAttributeSet styleSet, styleSet2;
     private Timer timer,timeattack;
     private int time = 0;
-    private int time_limit = 30;
+    private int time_limit = 100;
 
     //key setted
     private int display_width = 1000;
@@ -157,6 +157,11 @@ public class VSmode extends JFrame {
                 }
                 drawBoard(p1);
                 //System.out.println(timer.getDelay());
+                if(p1.num_eraseline >= 5){
+                    p1.num_eraseline -=5;
+                    p1.sprint += 30;
+                    p1.total_score += 100;
+                }
                 if(p1.sprint>p1.SPMAX){
                     p1.sprint=p1.SPMAX;
                 }
@@ -174,6 +179,11 @@ public class VSmode extends JFrame {
                 }
                 drawBoard(p2);
                 //System.out.println(timer.getDelay());
+                if(p2.num_eraseline >= 5){
+                    p2.num_eraseline -=5;
+                    p2.sprint += 30;
+                    p2.total_score += 300;
+                }
                 if(p2.sprint>p2.SPMAX){
                     p2.sprint=p2.SPMAX;
                 }
@@ -899,7 +909,7 @@ public class VSmode extends JFrame {
 
     protected void cal_score(int combo,boolean double_score, Player p){
         if(combo > 0) {
-            p.total_score = p.total_score + combo + combo - 1;
+            p.total_score = p.total_score + (combo + combo - 1) * 30;
             if(double_score == true)
                 p.total_score *= 2;
         }
@@ -909,6 +919,7 @@ public class VSmode extends JFrame {
     }
 
     private boolean isBlocked(char move, Player p){ //블럭이 갈 수 있는지 확인하는 함수('d' : 아래, 'r' : 오른쪽, 'l' : 왼쪽)
+        p.total_score += 1;
         int y = p.y, x = p.x;
         Block curr = p.curr;
         int[][] board = p.board;

@@ -68,7 +68,7 @@ public class ScoreDataManager {
     }
 
 
-    public void addScoreData(String name, int score, String mode){
+    public void addScoreData(String name, long score, String mode){
         JSONObject scoreData = readData();
         JSONArray scoreArr = (JSONArray) scoreData.get(mode);
 
@@ -134,7 +134,7 @@ public class ScoreDataManager {
         }
     }
 
-    public int getRowsFromTable(String name, int score, String mode){
+    public int getRowsFromTable(String name, long score, String mode){
         int idx = 0;
         JSONObject scoreData = readData();
         JSONArray scoreArr = (JSONArray)scoreData.get(mode);

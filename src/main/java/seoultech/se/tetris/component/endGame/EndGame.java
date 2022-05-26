@@ -16,13 +16,13 @@ public class EndGame extends JFrame {
     private JPanel scorePane, scoreBoardPane, textPane, menuPane;
     private JTextField writeName;
     private JButton restart, terminate, addButton;
-    private final int score;
+    private final long score;
     private JScrollPane scrollPane;
     private JTable scoreTable;
     private boolean isAdd = false;
     private String mode;
 
-    public EndGame(int x, int y, int score, String mode) {
+    public EndGame(int x, int y, long score, String mode) {
         this.score = score;
         this.mode = mode;
         this.setLocation(x,y);

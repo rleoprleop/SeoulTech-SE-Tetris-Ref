@@ -35,10 +35,10 @@ public class Board extends JFrame {
 	public static final String mac_BORDER_CHAR = "X";
 	public static final String mac_BLOCK_CHAR = "O";
 	public static final String mac_BLANK_CHAR = " ";
-	public static final String BLOCK_CHAR_LIST = " OOLEDOXXXXX";
+	public static final String BLOCK_CHAR_LIST = " OOLEDTOXXXXXXX";
 
 	public static String os;
-	public static final int animate_idx = 6;
+	public static final int animate_idx = 7;
 
 	private BoardLayout mainPanel;
 	private JTextPane pane;
@@ -63,7 +63,12 @@ public class Board extends JFrame {
 	int y = 0;
 	private static int num_eraseline = 0;
 	private static int item_rotate = 0;
-	private static int total_score = 0;
+	private static long total_score = 0;
+	private static final int easy_score = 10;
+	private static final int normal_score = 20;
+	private static final int hard_score = 50;
+	private static int diffi = normal_score;
+
 
 	private static final int initInterval = 1000;
 	int sprint=0;
@@ -138,6 +143,11 @@ public class Board extends JFrame {
 				}
 				drawBoard();
 				//System.out.println(timer.getDelay());
+				if(num_eraseline >= 5) {
+					sprint += diffi;
+					total_score += diffi * 10;
+					num_eraseline-=5;
+				}
 				if(sprint>SPMAX){
 					sprint=SPMAX;
 				}
@@ -231,12 +241,15 @@ public class Board extends JFrame {
 		switch(lv){
 			case "normal":
 				lev_block = NORMAL;
+				diffi = normal_score;
 				break;
 			case "hard":
 				lev_block = HARD;
+				diffi = hard_score;
 				break;
 			case "easy":
 				lev_block = EASY;
+				diffi = easy_score;
 				break;
 		}
 
@@ -432,20 +445,13 @@ public class Board extends JFrame {
 
 	protected void cal_score(int combo, boolean double_score){
 		if(combo > 0) {
-			total_score = total_score + combo + combo - 1;
+			total_score = total_score + (combo + combo - 1) * diffi;
 			if(double_score == true)
 				total_score *= 2;
 		}
 		num_eraseline += combo;
 		if(mode == item_mode)
 			item_rotate += combo;
-
-	}
-	protected void animate(int i) {
-		for(int j=0; j<WIDTH; j++){
-			board[i][j] = animate_idx;
-		}
-		drawBoard();
 	}
 
 	protected void eraseRow() {
@@ -486,6 +492,13 @@ public class Board extends JFrame {
 					if(BLOCK_CHAR_LIST.charAt(board[i][j]) == 'D')
 					{
 						double_score = true;
+					}
+				}
+				for(int j=0; j<WIDTH; j++)
+				{
+					if(BLOCK_CHAR_LIST.charAt(board[i][j]) == 'T')
+					{
+						sprint = 0;
 					}
 				}
 			}
@@ -568,8 +581,8 @@ public class Board extends JFrame {
 		curr = next_block;
 		if(mode == item_mode)
 		{
-			if(true || item_rotate > 4) {
-				//item_rotate -= 5;
+			if(item_rotate > 4) {
+				item_rotate -= 5;
 				next_block = getRandomBlock();
 				Random rnd = new Random();
 				if(rnd.nextInt(100) < 80)
@@ -609,6 +622,7 @@ public class Board extends JFrame {
 	}
 
 	protected void moveDown() throws IOException { //구조를 조금 바꿈 갈수잇는지 먼저 확인후에 갈수있으면 지우고 이동
+		total_score += 1;
 		if(!isBlocked('d')) {
 			eraseCurr();
 			y++;
@@ -673,6 +687,7 @@ public class Board extends JFrame {
 		eraseCurr();
 		while(!isBlocked('d'))
 			y++;
+		total_score += y;
 		placeBlock();
 		drawBoard();
 		moveDown();

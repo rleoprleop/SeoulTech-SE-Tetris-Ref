@@ -58,7 +58,7 @@ public abstract class Block {
 	public void make_item() {
 		int rand_int = rand.nextInt(this.item_shape.length);
 		shape = this.item_shape[rand_int];
-		int num_item = 3;
+		int num_item = 4;
 		int rand_item = rand.nextInt(num_item) +1 + 2;
 		for(int i=0; i<shape.length; i++){
 			for(int j=0; j<shape[i].length; j++){
