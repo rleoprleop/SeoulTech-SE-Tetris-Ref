@@ -9,7 +9,7 @@ public class BoardLayout extends JPanel {
     private JPanel sidePane;
 
     public BoardLayout(int width,int height) {
-        this.setLayout(new GridLayout(1,3, 10,0));
+        this.setLayout(new GridLayout(1,3, 10,10));
         this.setSize(width, height);
         sidePane = new JPanel(new GridLayout(4,1,10,15));
         boardPane = new JPanel();
