@@ -1,13 +1,12 @@
 package seoultech.se.tetris.component;
 
-import seoultech.se.tetris.component.model.DataManager;
 import seoultech.se.tetris.component.setting.*;
+import seoultech.se.tetris.component.setting.keySetting.P1KeySetting;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 import javax.swing.ImageIcon;
 
 public class Setting extends JFrame {
