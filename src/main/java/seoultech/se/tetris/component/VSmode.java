@@ -50,9 +50,13 @@ public class VSmode extends JFrame {
     private int key_harddrop1, key_harddrop2;
     private int key_pause1;
     private int key_down1, key_down2;
+    private String mode;
 
-    public VSmode(int x, int y) throws IOException {
+    public VSmode(int x, int y, String mode) throws IOException{
         super("SeoulTech SE Tetris VS Mode");
+
+        this.mode = mode;
+
         this.setLocation(x, y);
         this.setLayout(new GridLayout(1,2,10,10));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -107,7 +111,7 @@ public class VSmode extends JFrame {
         this.setVisible(true);
     }
 
-    private void setting() throws IOException {
+    private void setting()  {
         int code = DataManager.getInstance().getLeft();
         //1p
         key_left1 = code;
@@ -480,7 +484,7 @@ public class VSmode extends JFrame {
             p.y = 0;
             if(isBlocked('d', p)){
                 timer.stop();
-                new VsModeEndGame(this.getLocation().x, this.getLocation().y,  name);
+                new VsModeEndGame(this.getLocation().x, this.getLocation().y, name, mode);
                 this.dispose();
             }
         }

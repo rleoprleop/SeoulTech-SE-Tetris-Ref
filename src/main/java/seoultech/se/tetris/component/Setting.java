@@ -1,7 +1,7 @@
 package seoultech.se.tetris.component;
 
+import seoultech.se.tetris.component.Menu.TetrisMenu;
 import seoultech.se.tetris.component.setting.*;
-import seoultech.se.tetris.component.setting.keySetting.P1KeySetting;
 
 import javax.swing.*;
 import java.awt.*;

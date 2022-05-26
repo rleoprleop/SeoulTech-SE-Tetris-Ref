@@ -1,12 +1,11 @@
 package seoultech.se.tetris.component.endGame;
 
 import seoultech.se.tetris.component.Board;
-import seoultech.se.tetris.component.TetrisMenu;
+import seoultech.se.tetris.component.Menu.TetrisMenu;
 import seoultech.se.tetris.component.model.ScoreDataManager;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.TableCellRenderer;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;

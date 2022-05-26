@@ -1,4 +1,5 @@
 package seoultech.se.tetris.component;
+import seoultech.se.tetris.component.Menu.TetrisMenu;
 import seoultech.se.tetris.component.model.ScoreDataManager;
 
 import javax.swing.*;
