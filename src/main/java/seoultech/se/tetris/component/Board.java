@@ -13,7 +13,9 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.text.*;
 
 import seoultech.se.tetris.blocks.*;
+import seoultech.se.tetris.component.endGame.EndGame;
 import seoultech.se.tetris.component.model.DataManager;
+import seoultech.se.tetris.component.pause.Pause;
 
 
 public class Board extends JFrame {
@@ -237,21 +239,10 @@ public class Board extends JFrame {
 				lev_block = EASY;
 				break;
 		}
-		String display = DataManager.getInstance().getDisplay();
-		switch (display){
-			case "small":
-				display_width = 500;
-				display_height = 600;
-				break;
-			case "normal":
-				display_width = 700;
-				display_height = 840;
-				break;
-			case "big":
-				display_width = 800;
-				display_height = 960;
-				break;
-		}
+
+		display_width = DataManager.getInstance().getDisPlayWidth();
+		display_height = DataManager.getInstance().getDisPlayWidth();
+
 		int code = DataManager.getInstance().getLeft();
 		key_left = code;
 		code = DataManager.getInstance().getRight();
@@ -669,7 +660,7 @@ public class Board extends JFrame {
 		if(!ispaused){
 			ispaused = true;
 			timer.stop();
-			new Pause(this.getLocation().x, this.getLocation().y,this.getSize().width, this.getSize().height, this);
+			new Pause(this);
 
 		}
 		else{

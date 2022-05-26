@@ -8,6 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 
 public class P2KeySetting extends JFrame {
     private JPanel backButtonPanel, mainPanel;
@@ -51,6 +52,13 @@ public class P2KeySetting extends JFrame {
         p2KeyArr[2] = DataManager.getInstance().getDown2();
         p2KeyArr[3] = DataManager.getInstance().getRotate2();
         p2KeyArr[4] = DataManager.getInstance().getHarddrop2();
+
+        for(int i = 0; i<6; i++){
+            System.out.println(KeyEvent.getKeyText(p1KeyArr[i]));
+        }
+        for(int i = 0; i<5; i++){
+            System.out.println(KeyEvent.getKeyText(p2KeyArr[i]));
+        }
     }
     private void setMainPanel(){
         mainPanel = new JPanel(new BorderLayout());
@@ -90,10 +98,19 @@ public class P2KeySetting extends JFrame {
         keyArr = new int[p1KeyArr.length + p2KeyArr.length];
         System.arraycopy(p1KeyArr, 0, keyArr,0, p1KeyArr.length);
         System.arraycopy(p2KeyArr, 0, keyArr, p1KeyArr.length, p2KeyArr.length);
+        for(int i = 0; i<keyArr.length; i++){
+            System.out.println(KeyEvent.getKeyText(keyArr[i]));
+        }
 
         for(int i = 0; i<keyArr.length; i++){
             for(int j = i +1; j<keyArr.length; j++){
-                if(keyArr[i] == keyArr[j]) return false;
+                if(keyArr[i] == keyArr[j]) {
+                    System.out.println(KeyEvent.getKeyText(keyArr[i]));
+                    System.out.println(KeyEvent.getKeyText(keyArr[j]));
+                    System.out.println(i + j);
+
+                    return false;
+                }
             }
         }
         return true;

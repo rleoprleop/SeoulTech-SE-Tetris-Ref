@@ -6,35 +6,6 @@ import org.json.simple.parser.ParseException;
 
 import java.io.*;
 
-
-/*
-{"rotate":"38",
-  "ori_left":"37",
-  "ori_rotate":"38",
-  "ori_down":"40",
-  "Color_weak":"off",
-  "ori_pause":"27",
-  "right":"39",
-  "down":"40",
-  "pause":"27",
-  "ori_Level":"normal",
-  "ori_hardDrop":"32",
-  "mode":"normalScore",
-  "left":"37",
-  "ori_Display":"normal",
-  "ori_right":"39",
-  "Level":"normal",
-  "hardDrop":"32",
-  "ori_Color_weak":"off",
-  "Display":"normal",
-  "right2":"68",
-  "left2":"65",
-  "down2":"83",
-  "rotate2":"87",
-  "harddrop2":"84"
-}
-
- */
 public class DataManager {
     private final String FILEPATH = "src/main/java/seoultech/se/tetris/component/model/setting.json";
     private final String KEY_LEVEL = "Level";
@@ -80,9 +51,6 @@ public class DataManager {
         return data;
     }
     private void writeData(String data){
-//        writer = new BufferedWriter(new FileWriter("src/main/java/seoultech/se/tetris/component/model/setting.json"));
-//        writer.write(js.toJSONString());
-//        writer.close();
         try {
             File jsonFile = new File(FILEPATH);
             BufferedWriter writer = new BufferedWriter(new FileWriter(jsonFile));
@@ -181,17 +149,38 @@ public class DataManager {
         data.put(KEY_DOWN2, code);
         writeData(data.toString());
     }
-
-//    public void setKey(int left, int right, int down, int pause, int rotate, int hardDrop){
-//        JSONObject data = readData();
-//        data.put(KEY_LEFT, left);
-//        data.put(KEY_RIGHT, right);
-//        data.put(KEY_DOWN, down);
-//        data.put(KEY_PAUSE, pause);
-//        data.put(KEY_ROTATE, rotate);
-//        data.put(KEY_HARDDROP, hardDrop);
-//        writeData(data.toString());
-//    }
+    public int getDisPlayWidth(){
+        String display = getDisplay();
+        int display_width = 0;
+        switch (display){
+            case "small":
+                display_width = 500;
+                break;
+            case "normal":
+                display_width = 700;
+                break;
+            case "big":
+                display_width = 800;
+                break;
+        }
+        return display_width;
+    }
+    public int getDisPlayHeight(){
+        String display = getDisplay();
+        int display_height=0;
+        switch (display){
+            case "small":
+                display_height = 600;
+                break;
+            case "normal":
+                display_height = 840;
+                break;
+            case "big":
+                display_height = 960;
+                break;
+        }
+        return display_height;
+    }
 
     public void setKey(int keyArr[]){
         JSONObject data = readData();
@@ -204,13 +193,15 @@ public class DataManager {
 
         if(keyArr.length > 6){
             data.put(KEY_LEFT2, keyArr[6]);
-            data.put(KEY_DOWN2, keyArr[7]);
-            data.put(KEY_ROTATE2, keyArr[8]);
-            data.put(KEY_HARDDROP2, keyArr[9]);
+            data.put(KEY_RIGHT2, keyArr[7]);
+            data.put(KEY_DOWN2, keyArr[8]);
+            data.put(KEY_ROTATE2, keyArr[9]);
+            data.put(KEY_HARDDROP2, keyArr[10]);
 
         }
         writeData(data.toString());
     }
+
     public String getMode(){
         JSONObject data = readData();
         return data.get(KEY_MODE).toString();
@@ -291,21 +282,25 @@ public class DataManager {
 
     public void resetting(){
         JSONObject data = readData();
+
         data.put(KEY_LEVEL, "normal");
-        data.put(KEY_COLOR,"off");
+        data.put(KEY_COLOR, "off");
         data.put(KEY_DISPLAY, "normal");
-        data.put(KEY_LEFT,37);
-        data.put(KEY_RIGHT,39);
-        data.put(KEY_ROTATE,38);
+        data.put(KEY_LEFT, 37);
+        data.put(KEY_RIGHT, 39);
+        data.put(KEY_ROTATE, 38);
         data.put(KEY_HARDDROP, 32);
-        data.put(KEY_PAUSE,27);
-        data.put(KEY_DOWN,40);
+        data.put(KEY_PAUSE, 27);
+        data.put(KEY_DOWN, 40);
+
 
         data.put(KEY_LEFT2, 65);
         data.put(KEY_RIGHT2, 68);
-        data.put(KEY_ROTATE2, 83);
-        data.put(KEY_HARDDROP2, 87);
-        data.put(KEY_DOWN2, 84);
+        data.put(KEY_ROTATE2,87);
+        data.put(KEY_HARDDROP2, 84);
+        data.put(KEY_DOWN2, 83);
+
         writeData(data.toString());
     }
+//    {"rotate":38,"down2":68,"hardDrop2":84,"Color_weak":"off","left2":65,"right":39,"down":40,"pause":27,"mode":"normalScore","left":37,"right2":68,"rotate2":87,"Level":"normal","hardDrop":32,"Display":"normal"}
 }
