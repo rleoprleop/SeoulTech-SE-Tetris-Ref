@@ -145,7 +145,7 @@ public class Board extends JFrame {
 			}
 		});
 
-		press_timer = new Timer(300, new ActionListener() {
+		press_timer = new Timer(200, new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -157,7 +157,7 @@ public class Board extends JFrame {
 			}
 		});
 
-		erase_timer = new Timer(200, new ActionListener() {
+		erase_timer = new Timer(100, new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				eraseLine();
